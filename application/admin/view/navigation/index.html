@@ -1,0 +1,90 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_navigation} {$Think.lang.v_manage}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <a class="btn btn-success mb-2 mr-2" href="{:url('navigation/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_navigation} {$Think.lang.v_manage}</a>
+                            <a class="btn btn-default mb-2 mr-2" href="{:url('navigation/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_navigation}</a>
+                            {eq name="Think.config.app.isdisplay.typeattribute" value="1"}
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('attribute/index?tabledir=Navigation&lang='.input('lang'))}"><i class="fa fa-tag"></i> {$Think.lang.v_attribute} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-default mb-2" href="{:url('attribute/edit?tabledir=Navigation&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            {/eq}
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <form name="form2" id="form2" action="" method="post">
+                            <tr>
+                                <th>ID</th>
+                                <th>{$Think.lang.v_title}</th>
+                                <th class="hidden-xs">{$Think.lang.v_sequence}</th>
+                                <th>{$Think.lang.v_do}</th>
+                            </tr>
+                            {volist name="list" id="rs"}
+                                <input type="hidden" name="id[]" value="{$rs.id}" />
+                                <tr>
+                                    <td><label><input type="checkbox" name="selectid[]" id="selectid" value="{$rs.id}" /><span class="hidden-xs"> {$rs.id}</span></label></td>
+                                    <td>{$rs.html} {$rs.title}</td>
+                                    <td class="hidden-xs"><input name="sequence[]" type="text" value="{$rs.sequence}" class="form-control" /></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-success mb-2 mr-2" href="{:url('navigation/edit?id='.$rs['id'].'&lang='.input('lang'))}"><i class="fa fa-edit"></i> {$Think.lang.v_edit}</a>
+                                        <a class="btn btn-sm btn-danger mb-2" onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('navigation/delete_one?lang='.input('lang').'&id='.$rs['id'])}"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                    </td>
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td colspan="4">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 mt-2"><div class="pull-left">{$Think.lang.v_total} {$total} {$Think.lang.v_records}</div></div>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                                <button type="button" class="btn btn-success mt-2 mb-2 mr-2 hidden-xs" onClick='ConfirmDel("","{:url('navigation/update_all?lang='.input('lang'))}","update");'><i class="fa fa-arrow-circle-o-up"></i> {$Think.lang.v_batch} {$Think.lang.v_update}</button>
+                                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('navigation/delete_all?lang='.input('lang'))}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+</body>
+</html>

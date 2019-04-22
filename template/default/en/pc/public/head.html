@@ -1,0 +1,135 @@
+<!--头部 开始-->
+<header id="header" class="header-effect-shrink" data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyChangeLogo': true, 'stickyStartAt': 120, 'stickyHeaderContainerHeight': 70}">
+    <div class="header-body">
+        <div class="header-top bg-light">
+            <div class="container">
+                <div class="header-row">
+                    <div class="header-column justify-content-start d-none d-md-block">
+                        <div class="header-row">
+                            <nav class="header-nav-top">
+                                <ul class="nav nav-pills">
+                                    <li><span class="pl-0">{$slogan}</span></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="header-column justify-content-end">
+                        <div class="header-row">
+                            <nav class="header-nav-top">
+                                <ul class="nav nav-pills">
+                                    <li><a href="tel:{$telephone}" rel="nofollow" class="mr-1"><i class="fa fa-phone"></i> {$telephone}</a><a href="tel:{$mob}" rel="nofollow"><i class="fa fa-mobile-alt"></i> {$mob}</a></li>
+                                    {eq name="Think.config.isdisplay.user" value="1"}
+                                        <li class="nav-item-left-border">
+                                            {notempty name="Think.session.username"}
+                                                <a href="{:url('user/index')}"><i class="fa fa-user"></i> {$Think.lang.v_usercenter}</a>
+                                            {else /}
+                                                <a href="{:url('user/index')}"><i class="fa fa-user"></i> {$Think.lang.v_login_please} / {$Think.lang.v_reg}</a>
+                                            {/notempty}
+                                        </li>
+                                    {/eq}
+                                    {gt name="langNum" value="1"}
+                                    <li class="dropdown nav-item-left-border">
+                                        <a class="pl-0 ml-2" href="{$home_path}" role="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/skin/admin/img/flags/{$lang}.png" /> {$langRs.viewtitle} <i class="fa fa-angle-down"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownLanguage">
+                                            {tag:list name="langRs" table="language" where="mulu<>'$lang' and status=1" limit="10" order="sequence desc"}
+                                                <a class="dropdown-item" href="/{$langRs.mulu}/"><img src="/skin/admin/img/flags/{$langRs.mulu}.png" /> {$langRs.viewtitle}</a>
+                                            {/tag:list}
+                                        </div>
+                                    </li>
+                                    {/gt}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-container container">
+            <div class="header-row">
+                <div class="header-column">
+                    <div class="header-row">
+                        <div class="header-logo"><a href="{$home_path}"><img alt="{$siteRs.title}" width="210" height="50" data-sticky-width="189" data-sticky-height="45" src="{$siteRs.logo}"></a></div>
+                    </div>
+                </div>
+                <div class="header-column justify-content-end">
+                    <div class="header-row">
+                        <div class="header-nav header-nav-links order-2 order-lg-1">
+                            <div class="header-nav-main">
+                                <nav class="collapse">
+                                    <ul class="nav nav-pills" id="mainNav">
+                                        {volist name="navigation" id="oneRs"}
+                                        {if $oneRs.att_type eq 'Product'}
+                                                <li class="dropdown dropdown-mega">
+                                                    <a class="dropdown-item dropdown-toggle" href="{$oneRs.linkurl}">{$oneRs.title}</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <div class="dropdown-mega-content">
+                                                                <div class="row">
+                                                                    {tag:list name="navsortRs" table="sort" where="lang='$lang' and tabledir='Product' and parentid=0" limit="5" order="sequence desc"}
+                                                                    <div class="nav-col col-12">
+                                                                        <a href="{:url($lang_path.$navsortRs['urlroute'].'-'.$navsortRs['routesign'].$navsortRs['id'].'-1')}" class="dropdown-mega-sub-title text-dark pl-0 pr-0 font-weight-bold">{$navsortRs.title}</a>
+                                                                        <ul class="dropdown-mega-sub-nav ml-0">
+                                                                            {php}
+                                                                                $arrStr = getOneArr('getChildSort','sort','id,parentid',$navsortRs['id'],'id');
+                                                                            {/php}
+                                                                            {tag:list name="navproRs" table="product" where="lang='$lang' and sortid in($arrStr)" limit="5" order="sequence desc"}
+                                                                                <li class="detail"><a class="dropdown-item" href="{:url($lang_path.$navproRs['urlroute'].'-'.$navproRs['routesign'].$navproRs['id'])}"><img src="{$navproRs.thumb}" class="rounded mr-2" onerror="this.src='/skin/admin/img/nopic.png'">{$navproRs.title}</a></li>
+                                                                            {/tag:list}
+                                                                            <li class="detail"><a class="dropdown-item" href="{:url($lang_path.$navsortRs['urlroute'].'-'.$navsortRs['routesign'].$navsortRs['id'].'-1')}">&raquo; {$Think.lang.v_more}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    {/tag:list}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                        {else /}
+                                            {empty name="oneRs.subOne"}
+                                                <li><a class="dropdown-item" href="{$oneRs.linkurl}">{$oneRs.title}</a></li>
+                                            {else /}
+                                                <li class="dropdown">
+                                                    <a class="dropdown-item dropdown-toggle" href="{$oneRs.linkurl}">{$oneRs.title}</a>
+                                                    <ul class="dropdown-menu">
+                                                        {volist name="oneRs.subOne" id="twoRs"}
+                                                            {empty name="twoRs.subTwo"}
+                                                                <li><a class="dropdown-item" href="{$twoRs.linkurl}">{$twoRs.title}</a></li>
+                                                            {else /}
+                                                                <li class="dropdown-submenu">
+                                                                    <a class="dropdown-item" href="{$twoRs.linkurl}">{$twoRs.title}</a>
+                                                                    <ul class="dropdown-menu">
+                                                                        {volist name="twoRs.subTwo" id="threeRs"}
+                                                                            {empty name="threeRs.subThree"}
+                                                                                <li><a class="dropdown-item" href="{$threeRs.linkurl}">{$threeRs.title}</a></li>
+                                                                            {else /}
+                                                                                <li class="dropdown-submenu">
+                                                                                    <a class="dropdown-item" href="{$threeRs.linkurl}">{$threeRs.title}</a>
+                                                                                    <ul class="dropdown-menu">
+                                                                                        {volist name="threeRs.subThree" id="fourRs"}
+                                                                                            <li><a class="dropdown-item" href="{$fourRs.linkurl}">{$fourRs.title}</a></li>
+                                                                                        {/volist}
+                                                                                    </ul>
+                                                                                </li>
+                                                                            {/empty}
+                                                                        {/volist}
+                                                                    </ul>
+                                                                </li>
+                                                            {/empty}
+                                                        {/volist}
+                                                    </ul>
+                                                </li>
+                                            {/empty}
+                                        {/if}
+                                        {/volist}
+                                    </ul>
+                                </nav>
+                            </div>
+                            <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main nav"><i class="fa fa-bars"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--头部 结束-->

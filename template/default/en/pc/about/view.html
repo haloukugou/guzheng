@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$title}</title>
+<meta name="keywords" content="{$rs.keyword}" />
+<meta name="description" content="{$rs.description}" />
+<meta name="author" content="www. ">
+{include file="public/css" /}
+</head>
+<body>
+{include file="public/head" /}
+<!--面包屑 开始-->
+<div class="w-100 bg-light py-3" style="background:url({$page_banner}) center center no-repeat 100% 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{$home_path}" class="mr-2">{$Think.lang.v_home}</a>
+                {volist name="list_nav" id="listnavRs"}
+                    <i class="fa fa-angle-right mr-2"></i><a href="{:url($lang_path.$listnavRs['urlroute'].'-'.$listnavRs['routesign'].$listnavRs['id'].'-1')}">{$listnavRs.title}</a>
+                {/volist}
+            </div>
+        </div>
+    </div>
+</div>
+<!--面包屑 结束-->
+<!--主体 开始-->
+<div class="container mt-5">
+    <div class="row">
+        <!--内容 开始-->
+        <div class="col-md-9 mb-4">
+            <div class="row">
+                <div class="col-md-12 detail">
+                    <h1 class="h6 d-none d-md-block"><strong>{$rs.title}</strong></h1><hr>
+                    {$content1|raw}
+                </div>
+            </div>
+        </div>
+        <!--内容 结束-->
+        <!--侧边栏 开始-->
+        <div class="col-md-3 d-none d-md-block">
+            <aside>
+                <!--分类 开始-->
+                <h6 class="font-weight-bold"><i class="fa fa-dot-circle font-weight-light small"></i> {$Think.lang.v_about}</h6>
+                <ul class="nav nav-list flex-column mb-4">
+                    {volist name="sortlist" id="oneRs"}
+                        <li>
+                            <a href="{:url($lang_path.$oneRs['urlroute'].'-'.$oneRs['routesign'].$oneRs['id'].'-1')}">{$oneRs.title}</a>
+                            <ul class="collapse show">
+                                {php}$sortid = $oneRs['id'];{/php}
+                                {tag:list name="aboutRs" table="about" where="lang='$lang' and sortid=$sortid and signid=1" limit="10" order="sequence desc"}
+                                    <li><a class="{if $rs.id eq $aboutRs.id}active{/if}" href="{:url($lang_path.$aboutRs['urlroute'].'-'.$aboutRs['routesign'].$aboutRs['id'])}">{$aboutRs.title}</a></li>
+                                {/tag:list}
+                            </ul>
+                        </li>
+                    {/volist}
+                </ul>
+                <!--分类 结束-->
+                <!--最新信息 开始-->
+                <h6 class="font-weight-bold"><i class="fa fa-dot-circle font-weight-light small"></i> {$Think.lang.v_product_new}</h6>
+                <ul class="aside-list pl-0">
+                    {tag:list name="newproRs" table="product" where="lang='$lang' and signid=1" limit="5" order="addtime desc"}
+                    <li class="max-height-50">
+                        <a href="{:url($lang_path.$newproRs['urlroute'].'-'.$newproRs['routesign'].$newproRs['id'])}">
+                            <img alt="{$newproRs.title}" width="60" class="float-left img-fluid rounded mr-2 mt-1" src="{$newproRs.thumb}" onerror="this.src='/skin/admin/img/nopic.png'">
+                            {$newproRs.title}<br><span class="text-muted">{$newproRs.description|raw|msubstr=0,52}</span>
+                        </a>
+                    </li>
+                    {/tag:list}
+                </ul>
+                <!--最新信息 结束-->
+            </aside>
+        </div>
+        <!--侧边栏 结束-->
+    </div>
+</div>
+{include file="public/foot" /}
+</body>
+</html>

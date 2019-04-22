@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$Think.lang.v_user_reg} - {$Think.lang.v_usercenter}</title>
+<meta name="author" content="www. ">
+{include file="public/css" /}
+</head>
+<body>
+{include file="public/head" /}
+<!--面包屑 开始-->
+<div class="w-100 bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{$home_path}" class="mr-2">{$Think.lang.v_home}</a> <i class="fa fa-angle-right"></i>
+                <a href="{:url('user/index')}" class="ml-2">{$Think.lang.v_usercenter}</a> <i class="fa fa-angle-right ml-2 mr-1"></i>
+                {$Think.lang.v_user_reg}
+            </div>
+        </div>
+    </div>
+</div>
+<!--面包屑 结束-->
+<!--主体 开始-->
+<div class="container mt-5">
+    <div class="row">
+        <!--内容 开始-->
+        <div class="offset-md-3 col-md-6">
+            <div class="page-right pb-4">
+                <h6 class="mt-4 text-center">{$Think.lang.v_user_reg}</h6>
+                <form name="reg_form" action="" method="post" onSubmit="return checkReg();" class="offset-md-1 col-md-10 mt-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-user small mr-1"></i><span class="small pr-2">{$Think.lang.v_username}</span>&nbsp;</div>
+                        </div>
+                        <input name="username" type="text" maxlength="10" class="form-control" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-lock small mr-1"></i><span class="small pr-4">{$Think.lang.v_password}</span></div>
+                        </div>
+                        <input name="password" type="password" maxlength="20" class="form-control" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-lock small mr-1"></i><span class="small">{$Think.lang.v_password_confirm}</span></div>
+                        </div>
+                        <input name="vpassword" type="password" maxlength="20" class="form-control" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-info-circle small mr-1"></i><span class="small pr-2">{$Think.lang.v_verify}</span>&nbsp;</div>
+                        </div>
+                        <input name="verify" type="text" maxlength="4" class="form-control mr-2" />
+                        <img src="{:captcha_src()}" onclick="this.src='{:captcha_src()}'" border="0" height="35" align="absmiddle" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="agreement" name="agreement" value="1" checked="checked"><u class="text-muted" data-toggle="modal" data-target="#agreementview">{$Think.lang.v_i_agree}</u>
+                        </div>
+                    </div>
+                    <div class="input-group mb-4 text-center">
+                        <button type="submit" class="btn btn-color w-100"><i class="fa fa-check-circle mr-2"></i>{$Think.lang.v_reg}</button>
+                        <a href="{:url('user/login')}" class="btn btn-secondary w-100 mt-3">{$Think.lang.v_user_login} &raquo;</a>
+                    </div>
+                    <div class="w-100 mb-4 invisible">
+                        <div class="float-left">
+                            {$Think.lang.v_social_account} {$Think.lang.v_reg}：<a href="#" title="QQ" class="show-alert"><i class="fab fa-qq fa-lg text-danger ml-2 mr-4"></i></a> <a href="#" title="wechat" class="show-alert"><i class="fab fa-weixin fa-lg text-success mr-4"></i></a> <a href="#" title="weibo" class="show-alert"><i class="fab fa-weibo fa-lg text-danger"></i></a>
+                        </div>
+                        <a class="float-right cursor text-primary show-alert" href="javascript:;"><u>{$Think.lang.v_password_forget}？</u></a>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--内容 结束-->
+    </div>
+</div>
+{include file="public/foot" /}
+<script type="text/javascript">
+$(document).on("click", ".show-alert", function(){
+    $.alert("此功能开发中。。。敬请期待", "温馨提示");
+});
+/*注册*/
+function checkReg(){
+    var reg_form = document.reg_form;
+    var username = document.reg_form.username.value;
+    var password = document.reg_form.password.value;
+    var vpassword = document.reg_form.vpassword.value;
+    var verify = document.reg_form.verify.value;
+    var agreeflag = 1;
+    if(username.length < 5 || username.length > 20){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.y_username_length}",1000);
+        reg_form.username.focus();
+        return false;
+    }
+    if(password.length < 6 || password.length > 20){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.y_password_require}",1000);
+        reg_form.username.focus();
+        return false;
+    }
+    if(password != vpassword){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.y_password_confirm}",1000);
+        reg_form.username.focus();
+        return false;
+    }
+    if(verify.length != 4){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.c_verify_error}",1000);
+        reg_form.verify.focus();
+        return false;
+    }
+    $("#agreement").each(function(){
+        if($(this).is(":checked") != true){
+            agreeflag = 0;
+        }
+    });
+    if(agreeflag != 1){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.v_please_agree} \" {$Think.lang.v_i_agree} \" ",1000);
+        reg_form.agreement.focus();
+        return false;
+    }
+}
+</script>
+<!--弹出框 开始-->
+<div class="modal fade" id="agreementview">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h6 class="modal-title">{$Think.lang.v_agreement}</h6><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+            <div class="modal-body p-4">{$siteRs.agreement|raw}</div>
+            <div class="modal-footer"><button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">{$Think.lang.v_close}</button></div>
+        </div>
+    </div>
+</div>
+<!--弹出框 结束-->
+</body>
+</html>

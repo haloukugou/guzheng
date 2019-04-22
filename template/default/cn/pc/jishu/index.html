@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$title}</title>
+<meta name="keywords" content="{$keyword}" />
+<meta name="description" content="{$description}" />
+<meta name="author" content="www. ">
+{include file="public/css" /}
+</head>
+<body>
+{include file="public/head" /}
+<!--面包屑 开始-->
+<div class="w-100 bg-light py-3" style="background:url({$page_banner}) center center no-repeat 100% 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 pt-2">
+                <a href="{$home_path}" class="mr-2">{$Think.lang.v_home}</a> <i class="fa fa-angle-right"></i>
+                <a href="{$module_path}" class="ml-2">{$Think.lang.v_project}</a>
+                {volist name="list_nav" id="listnavRs"}
+                    <i class="fa fa-angle-right ml-2 mr-2"></i><a href="{:url($lang_path.$listnavRs['urlroute'].'-'.$listnavRs['routesign'].$listnavRs['id'].'-1')}">{$listnavRs.title}</a>
+                {/volist}
+                {if !empty(input('keyword'))}<i class="fa fa-angle-right ml-2 mr-2"></i>{$Think.lang.v_search}<span class="text-danger ml-2">“{:input('keyword')}”</span>{/if}
+            </div>
+            <div class="col-md-4 mt-2">
+                <form name="search_form" method="post" action="" onsubmit="return checksearch('{:url('project/index')}');">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" name="keyword" placeholder="{$Think.lang.v_keyword_tips}...">
+                        <span class="input-group-append"><button class="btn btn-sm" type="submit"><i class="fa fa-search"></i></button></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--面包屑 结束-->
+<!--主体 开始-->
+<div class="container mt-5">
+    <div class="row" style="height: 1200px;">
+        <!--列表 开始-->
+        <div class="col-md-12 mb-4">
+            {empty name="list"}<div class="col-md-12 text-center">{$Think.lang.v_nodata}</div>{/empty}
+            {volist name="list" id="rs"}
+                {php}$fileurl = $root.$rs['fileurl'];{/php}
+                <div class="row" style="height: 30%">
+                    <div class="col-md-4 col-sm-5 "><img class="img-fluid rounded" src="{$rs.thumb}" alt="{$rs.title}" onerror="this.src='/skin/admin/img/nopic.png'"></div>
+                    <div class="col-md-8 col-sm-7" style="text-align: center">
+                        <!--<h6 class="mb-3"><a href="{:url($lang_path.$rs['urlroute'].'-'.$rs['routesign'].$rs['id'])}">{$rs.title|msubstr=0,36}</a></h6>-->
+                        <!--<p class="text-muted mb-2">{$rs.description|raw|msubstr=0,150}</p>-->
+                        <!--<p class="text-muted mb-0">-->
+                            <!--<i class="fa fa-cubes mr-1"></i>{$Think.lang.v_sort}：{$rs.sort_title}-->
+                            <!--<i class="far fa-clock ml-2 mr-1"></i>{$Think.lang.v_date}：{$rs.addtime|date='Y-m-d'}-->
+                            <!--<i class="fa fa-eye ml-2 mr-1"></i> {$Think.lang.v_hits}：{$rs.hits}-->
+                        <!--</p>-->
+                        {$rs.content1|raw}
+                    </div>
+                </div><hr>
+            {/volist}
+            <!--分页-->
+            <div class="row mt-4">
+                <div class="col-md-4 col-sm-12">{$Think.lang.v_total} {$last_page} {$Think.lang.v_page} {$total} {$Think.lang.v_records}</div>
+                <div class="col-md-8 col-sm-12">
+                    <div class="pages float-right">{$list->render()|raw}</div>
+                </div>
+            </div>
+        </div>
+        <!--列表 结束-->
+        <!--侧边栏 开始-->
+
+        <!--侧边栏 结束-->
+    </div>
+</div>
+{include file="public/foot" /}
+</body>
+</html>

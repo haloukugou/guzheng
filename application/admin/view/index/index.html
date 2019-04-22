@@ -1,0 +1,252 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li class="active">{$Think.lang.v_quick_edit}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="row">
+                <!--全局 开始-->
+                <!--网站设置-->
+                {eq name="Think.config.app.isdisplay.siteinfo" value="1"}
+                <a href="{:url('siteinfo/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-0">
+                        <h5><i class="fa fa-gear"></i> {$Think.lang.v_siteinfo}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--字段-->
+                {eq name="Think.config.app.isdisplay.field" value="1"}
+                <a href="{:url('field/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-1">
+                        <h5><i class="fa fa-list-alt"></i> {$Think.lang.v_field} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--留言-->
+                {eq name="Think.config.app.isdisplay.guestbook" value="1"}
+                <a href="{:url('guestbook/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-2">
+                        <h5><i class="fa fa-commenting-o"></i> {$Think.lang.v_guestbook}{if input('lang') neq 'en'} {$Think.lang.v_manage}{/if}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--客服-->
+                {eq name="Think.config.app.isdisplay.chat" value="1"}
+                <a href="{:url('chat/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-3">
+                        <h5><i class="fa fa-user-circle-o"></i> {$Think.lang.v_chat}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--广告-->
+                {eq name="Think.config.app.isdisplay.ad" value="1"}
+                <a href="{:url('ad/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-4">
+                        <h5><i class="fa fa-bullhorn"></i> {$Think.lang.v_ad} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--关键词-->
+                {eq name="Think.config.app.isdisplay.keyword" value="1"}
+                <a href="{:url('keywordlink/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-0">
+                        <h5><i class="fa fa-flag"></i> {$Think.lang.v_keyword}{if input('lang') neq 'en'} {$Think.lang.v_manage}{/if}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--导航-->
+                {eq name="Think.config.app.isdisplay.navigation" value="1"}
+                <a href="{:url('navigation/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-1">
+                        <h5><i class="fa fa-navicon"></i> {$Think.lang.v_navigation}{if input('lang') neq 'en'} {$Think.lang.v_manage}{/if}</h5>
+                    </div>
+                </a>
+                {/eq}                
+                <!--地区-->
+                {eq name="Think.config.app.isdisplay.area" value="1"}
+                <a href="{:url('area/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-2">
+                        <h5><i class="fa fa-map-marker"></i> {$Think.lang.v_area} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--管理员-->
+                {eq name="Think.config.app.isdisplay.user" value="1"}
+                <a href="{:url('user/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-3">
+                        <h5><i class="fa fa-user"></i> {$Think.lang.v_user} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--模块-->
+                <a href="{:url('module/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-4">
+                        <h5><i class="fa fa-cubes"></i> {$Think.lang.v_module}{if input('lang') neq 'en'} {$Think.lang.v_manage}{/if}</h5>
+                    </div>
+                </a>
+                <!--文件-->
+                {eq name="Think.config.app.isdisplay.filemanage" value="1"}
+                <a href="{:url('filemanage/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-0">
+                        <h5><i class="fa fa-folder"></i> {$Think.lang.v_document} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--参数-->
+                {eq name="Think.config.app.isdisplay.parameter" value="1"}
+                <a href="{:url('config/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-1">
+                        <h5><i class="fa fa-cogs"></i> {$Think.lang.v_config_setting}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--数据库-->
+                {eq name="Think.config.app.isdisplay.databackup" value="1"}
+                <a href="{:url('databackup/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-2">
+                        <h5><i class="fa fa-database"></i> {$Think.lang.v_data}{if input('lang') neq 'en'} {$Think.lang.v_backup}{/if}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--权限组-->
+                {eq name="Think.config.app.isdisplay.authgroup" value="1"}
+                <a href="{:url('authGroup/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-3">
+                        <h5><i class="fa fa-users"></i> {$Think.lang.v_authgroup}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--权限-->
+                {eq name="Think.config.app.isdisplay.authrule" value="1"}
+                <a href="{:url('authRule/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-4">
+                        <h5><i class="fa fa-briefcase"></i> {$Think.lang.v_auth} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--语言-->
+                {eq name="Think.config.app.isdisplay.language" value="1"}
+                <a href="{:url('language/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-0">
+                        <h5><i class="fa fa-language"></i> {$Think.lang.v_language}{if input('lang') neq 'en'} {$Think.lang.v_manage}{/if}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--模板-->
+                {eq name="Think.config.app.isdisplay.templatemanage" value="1"}
+                <a href="{:url('templatemanage/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-1">
+                        <h5><i class="fa fa-file-text"></i> {$Think.lang.v_template} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--评论-->
+                {eq name="Think.config.app.isdisplay.comment" value="1"}
+                <a href="{:url('comment/index?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-2">
+                        <h5><i class="fa fa-comments"></i> {$Think.lang.v_comment} {$Think.lang.v_manage}</h5>
+                    </div>
+                </a>
+                {/eq}
+                <!--缓存-->
+                <a href="{:url('index/delCache?lang='.input('lang'))}" class="col-md-2 col-sm-2 col-xs-6 text-center">
+                    <div class="alert bg-3">
+                        <h5><i class="fa fa-refresh"></i> {$Think.lang.v_clean_cache}</h5>
+                    </div>
+                </a>
+                <!--全局 结束-->
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{notempty name="admintips"}
+<!--24小时不再提示 开始-->
+<div class="modal fade" id="change_admin_file" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-0">{$Think.lang.v_edit_admin_file}：admin.php</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form name="form1" action="{:url('index/editadminfile?lang='.input('lang'))}" method="post">
+                        <div class="col-md-offset-2 col-md-7">
+                            <h5>{$Think.lang.v_admin_filename}：</h5>
+                            <div class="input-group">
+                                <input type="text" name="filename" class="form-control" maxlength="20" placeholder="{$Think.lang.v_english_only}">
+                                <span class="input-group-addon">.php</span>
+                            </div>
+                            <h6 class="text-3 bold">{$Think.lang.v_admin_address}：</h6>
+                            <h5 class="text-0 bold">{$domain}/<span class="h6 bold">{$Think.lang.v_entered_above}</span>.php</h5>
+                        </div>
+                        <div class="col-md-offset-2 col-md-7">
+                            <h6>
+                                <button type="submit" class="btn btn-info mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                                <button onclick="javascript:closetips();" type="button" class="btn"><i class="fa fa-times-circle"></i> {$Think.lang.v_donot_show_again}</button>
+                            </h6>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    if(cookieget('closetips')!='closetips'){
+        $("#change_admin_file").modal("show");
+    }
+});
+function cookieget(n){
+    var name = n + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i<ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+function closetips(){
+    $("#change_admin_file").modal("hide");
+    var n = 'closetips';
+    var v = 'closetips';
+    var mins = 60 * 24;
+    var dn = '';
+    var path = "/";
+    var date = new Date();
+    date.setTime(date.getTime() + (mins * 60 *1000));
+    var expires = "; expires=" + date.toGMTString();
+    if(dn) dn = "domain=" + dn + "; ";
+    document.cookie = n + "=" + v + expires + "; " + dn + "path=" + path;
+}
+</script>
+<!--24小时不再提示 结束-->
+{/notempty}
+</body>
+</html>

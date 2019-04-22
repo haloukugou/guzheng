@@ -1,0 +1,105 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_manage}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_sort}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <form name="form1" action="" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8 mb-2">
+                            <div class="row">
+                                <a class="btn btn-success mb-2 mr-4" href="{:url('sort/index?tabledir='.$tabledir.'&lang='.input('lang'))}"><i class="fa fa-sitemap"></i> {$Think.lang.v_sort} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-default mb-2" href="{:url('sort/edit?tabledir='.$tabledir.'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_sort}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <form name="form2" id="form2" action="" method="post">
+                            <tr>
+                                <th>ID</th>
+                                <th>{$Think.lang.v_title}</th>
+                                <th class="hidden-xs">{$Think.lang.v_sequence}</th>
+                                <th>{$Think.lang.v_do}</th>
+                            </tr>
+                            {volist name="list" id="rs"}
+                                <input type="hidden" name="id[]" value="{$rs.id}" />
+                                <tr>
+                                    <td>
+                                        <label>
+                                            {notin name="rs.id" value="$navModuleRs.no_delete_sortid"}
+                                                <input type="checkbox" name="selectid[]" id="selectid" value="{$rs.id}" />
+                                            {/notin}
+                                            <span class="hidden-xs"> {$rs.id}</span>
+                                        </label>
+                                    </td>
+                                    <td>{$rs.html} {$rs.title}</td>
+                                    <td class="hidden-xs"><input name="sequence[]" type="text" value="{$rs.sequence}" class="form-control" /></td>
+                                    <td>
+                                        <a href="{:url('sort/edit?tabledir='.$rs['tabledir'].'&id='.$rs['id'].'&lang='.input('lang'))}" class="btn btn-success btn-sm mr-2 mb-2"><i class="fa fa-edit"></i> {$Think.lang.v_edit}</a>
+                                        {in name="rs.id" value="$navModuleRs.no_delete_sortid"}
+                                            <span class="btn btn-sm btn-default mb-2 disabled"><i class="fa fa-ban"></i> {$Think.lang.v_cannot_delete}</span>
+                                        {else /}
+                                            <a class="btn btn-danger btn-sm mb-2" onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('sort/delete_one?lang='.input('lang').'&id='.$rs['id'].'&tabledir='.$rs['tabledir'])}"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        {/in}
+                                    </td>
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td colspan="4">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 mt-2"><div class="pull-left mt-2">{$Think.lang.v_total} {$total} {$Think.lang.v_records}</div></div>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                                <button type="button" class="btn btn-success mt-2 mb-2 mr-2 hidden-xs" onClick='ConfirmDel("","{:url('sort/update_all?lang='.input('lang'))}","update");'><i class="fa fa-arrow-circle-o-up"></i> {$Think.lang.v_batch} {$Think.lang.v_update}</button>
+                                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('sort/delete_all?lang='.input('lang').'&tabledir='.$tabledir)}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+</body>
+</html>

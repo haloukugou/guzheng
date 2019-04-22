@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$title}</title>
+<meta name="keywords" content="{$rs.keyword}" />
+<meta name="description" content="{$rs.description}" />
+<meta name="author" content="www. ">
+{include file="public/css" /}
+</head>
+<body>
+{include file="public/head" /}
+<!--面包屑 开始-->
+<div class="w-100 bg-light py-3" style="background:url({$page_banner}) center center no-repeat 100% 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 pt-2">
+                <a href="{$home_path}" class="mr-2">{$Think.lang.v_home}</a>
+                {volist name="list_nav" id="viewnavRs"}
+                    <i class="fa fa-angle-right mr-2"></i>
+                    {eq name="viewnavRs.parentid" value="0"}
+                        <a href="{:url($lang_path.$viewnavRs['urlroute'].'-'.$viewnavRs['routesign'].$viewnavRs['id'].'-1')}">{$viewnavRs.title}</a>
+                    {else /}
+                        <a href="{:url($lang_path.$viewnavRs['urlroute'].'-'.$viewnavRs['routesign'].$viewnavRs['id'])}">{$viewnavRs.title}</a>
+                    {/eq}
+                {/volist}
+                <i class="fa fa-angle-right ml-2 mr-2"></i>{$rs.title}
+            </div>
+        </div>
+    </div>
+</div>
+<!--面包屑 结束-->
+<!--主体 开始-->
+<div class="container mt-5">
+    <div class="row mt-4">
+        <div class="col-md-6  detail">
+            <h6><i class="fa fa-user"></i> {$rs.title}</h6>
+            <hr>
+            <p>{$content1|raw}</p>
+        </div>
+        <div class="col-md-6">
+            <h6><i class="fa fa-edit"></i> {$Think.lang.v_guestbook_welcome}</h6>
+            <hr>
+            {include file="public/guestbook" /}
+        </div>
+    </div>
+</div>
+<!--主体 结束-->
+{include file="public/foot" /}
+<script type="text/javascript">
+/*留言*/
+function checkGuestbook(){
+    var guestbook = document.guestbook;
+    var realname = document.guestbook.realname.value;
+    var mobile = document.guestbook.mobile.value;
+    var content = document.guestbook.content.value;
+    var verify = document.guestbook.verify.value;
+    if(realname.length < 2){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.v_require_realname}",1000);
+        guestbook.realname.focus();
+        return false;
+    }
+    if(!(/^1[34578]\d{9}$/.test(mobile))){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.v_mobile_error}",1000);
+        guestbook.mobile.focus();
+        return false;
+    }
+    if(content.length <5 || content.length >2000){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.v_content_error}",1000);
+        guestbook.content.focus();
+        return false;
+    }
+    if(verify.length != 4){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.c_verify_error}",1000);
+        guestbook.verify.focus();
+        return false;
+    }
+}
+</script>
+</body>
+</html>

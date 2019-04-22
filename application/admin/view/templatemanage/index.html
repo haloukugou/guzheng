@@ -1,0 +1,116 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_system_manage}</li>
+                <li>{$Think.lang.v_template} {$Think.lang.v_manage}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form2" id="form2" action="" method="post">
+                        <div class="col-md-12 mt-2 mb-4"><a class="btn btn-success" data-target="#basic" data-toggle="modal"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_default_template}</a></div>
+                        {empty name="list->data"}
+                            <div class="col-md-12">{$Think.lang.v_nodata}</div>
+                        {else /}
+                        <!--列表 开始-->
+                        {volist name='$list->data' id='mulu'}
+                        {php}$muluArr = explode('.',$mulu);{/php}
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="box box-solid box-default pad">
+                                {if config('home_use_template')==$muluArr[0]}
+                                    <div class="col-md-12 col-xs-12 text-left">
+                                        <span class="btn btn-default btn-xs mb-2 disabled"><i class="fa fa-ban"></i> {$Think.lang.v_cannot_delete}</span>
+                                    </div>
+                                    <div class="col-md-12 mt-2 mb-2"><div class="template"><img src="/skin/index/{$mulu}"></div></div>
+                                    <div class="col-md-12 col-xs-12 text-center">{$muluArr[0]|msubstr=0,10}</div>
+                                {else /}
+                                    <div class="col-md-9 col-xs-8 text-left">
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$muluArr[0].'&lang='.input('lang').'&fromwhere=first')}" class="btn btn-danger btn-xs mb-2"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                    </div>
+                                    <label class="col-md-3 col-xs-4 text-right">
+                                        <input type="checkbox" name="selectid[]" id="selectid" value="{$Think.get.mulu}/{$muluArr[0]}">
+                                    </label>
+                                    <div class="col-md-12 mt-2 mb-2"><div class="template"><img src="/skin/index/{$mulu}"></div></div>
+                                    <div class="col-md-12 col-xs-12 text-center">{$muluArr[0]|msubstr=0,10}</div>
+                                {/if}
+                                <div class="col-md-12 col-xs-12 text-center">
+                                    <a class="btn btn-success btn-xs mt-2 mr-2" href="{:url('templatemanage/skinlist?mulu=/'.$muluArr[0].'&lang='.input('lang'))}"><i class="fa fa-edit"></i> {$Think.lang.v_edit} {$Think.lang.v_skin}</a>
+                                    <a class="btn btn-info btn-xs mt-2 mr-2" href="{:url('templatemanage/mululist?mulu=/'.$muluArr[0].'&lang='.input('lang'))}"><i class="fa fa-edit"></i> {$Think.lang.v_edit} {$Think.lang.v_template}</a>
+                                    {if config('home_use_template')==$muluArr[0]}
+                                        <span class="btn bg-purple btn-xs mt-2 mr-2"><small><i class="fa fa-check-circle ml-2"></i></small> {$Think.lang.v_use_template}</span>
+                                    {else /}
+                                        <a href="{:url('templatemanage/setdefault?lang='.input('lang').'&mulu='.$muluArr[0])}" class="btn btn-default btn-xs mt-2 mr-2"><i class="fa fa-gear ml-2"></i> {$Think.lang.v_default_set}</a>
+                                    {/if}
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        {/volist}<div class="clearfix"></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 mt-2"><div class="pull-left mr-4">{$list->render|raw}</div><div class="pull-left mt-2">{$Think.lang.v_total} {$list->page} / {$list->pageNum} {$Think.lang.v_page} {$list->total} {$Think.lang.v_records}</div></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 mt-2">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('templatemanage/delfile?lang='.input('lang').'&fromwhere=first&deleteall=yes')}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                            </div>
+                        </div>
+                        <!--列表 结束-->
+                        {/empty}
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h5 class="modal-title text-green"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_default_template}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form name="form1" action="{:url('templatemanage/addtemplate?lang='.input('lang'))}" method="post">
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <h5>{$Think.lang.v_template} {$Think.lang.v_mulu_title}：</h5>
+                            <p><input type="text" name="foldername" class="col-md-12 form-control" maxlength="20" placeholder="{$Think.lang.v_only_letters_or_numbers}"></p>
+                        </div>
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> {$Think.lang.v_close}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

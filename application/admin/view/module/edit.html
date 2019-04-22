@@ -1,0 +1,297 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_module} {$Think.lang.v_manage}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_module}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            {eq name="Think.config.app.isdisplay.module" value="1"}
+                <div class="box">
+                    <div class="box-body">
+                        <div class="col-md-12 mb-2">
+                            <div class="row">
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('module/index?lang='.input('lang'))}"><i class="fa fa-cubes"></i> {$Think.lang.v_module} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-success mb-2" href="{:url('module/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_module}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/eq}
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_module}</div>
+                <div class="box-body">
+                    <form name="editform" id="editform" method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div {eq name="Think.config.app.isdisplay.module" value="0"}class="hidden"{/eq}>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_belong} {$Think.lang.v_module}</div>
+                                <div class="col-md-4">
+                                    {notempty name="rs.id"}
+                                        <input name="module" type="text" class="form-control" value="{$rs.module}" readonly="readonly" />
+                                    {else /}
+                                        <select name="module" class="form-control">
+                                            <option value="Product">Product {$Think.lang.v_module}</option>
+                                            <option value="News">News {$Think.lang.v_module}</option>
+                                            <option value="Project">Project {$Think.lang.v_module}</option>
+                                            <option value="Down">Down {$Think.lang.v_module}</option>
+                                            <option value="About">About {$Think.lang.v_module}</option>
+                                        </select>
+                                    {/notempty}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_module_name} <span class="text-red inline">*</span></div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="title"  id="title" onblur="strtopy();" value="{$rs.title}" placeholder="{$Think.lang.v_module_name_tips}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_module_mulu} <span class="text-red inline">*</span></div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="tabledir" value="{$rs.tabledir}" placeholder="{$Think.lang.v_module_mulu_tips}" {notempty name="rs.id"}readonly="readonly"{/notempty} />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_sequence}</div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" onKeydown="if(event.keyCode==13)event.returnValue=false" onChange="if(/\D/.test(this.value)){alert('{$Think.lang.v_require_number}！');this.value='0';}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_enable_ornot}</div>
+                                <div class="col-md-9 radio">
+                                    <label class="mr-2">
+                                        <input type="radio" name="disabled" value="1"{if $rs.disabled eq 1 or empty($rs.disabled)} checked="checked"{/if} /> {$Think.lang.v_enable}
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="disabled" value="0"{eq name="rs.disabled" value="0"} checked="checked"{/eq} />{$Think.lang.v_disable}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group text-red">
+                                <div class="col-md-3 control-label">{$Think.lang.v_route_sign} *</div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="routesign" value="{$rs.routesign}" placeholder="{$Think.lang.v_english_only}" maxlength="20" />{$Think.lang.v_route_tips}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_listnum}</div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="listnum" value="{empty name="rs.listnum"}16{else/}{$rs.listnum}{/empty}" onKeydown="if(event.keyCode==13)event.returnValue=false" onChange="if(/\D/.test(this.value)){alert('{$Think.lang.v_require_number}！');this.value='16';}" />
+                                </div>
+                            </div>
+                            <div class="form-group text-red">
+                                <div class="col-md-3 control-label">{$Think.lang.v_urlroute} *</div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="urlroute" id="urlroute" placeholder="{$Think.lang.v_urlroute_tips}" value="{$rs.urlroute}" />{$Think.lang.v_route_tips}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_config_setting}</div>
+                                <div class="col-md-9">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body checkbox">
+                                            {php}$isdisplay_array=explode(',',$rs['isdisplay']);{/php}
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="attribute" {if in_array('attribute',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_attribute}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="area" {if in_array('area',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_area}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="onecontent" {if in_array('onecontent',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_one_content}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="morecontents" {if in_array('morecontents',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_morecontents}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="thumb" {if in_array('thumb',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_single_picture_upload}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="morepics" {if in_array('morepics',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_more_pictures_upload}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="fileurl" {if in_array('fileurl',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_single_file_upload}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="morefiles" {if in_array('morefiles',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_more_files_upload}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="price" {if in_array('price',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_price}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="hits" {if in_array('hits',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_click}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="client" {if in_array('client',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_client}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="tags" {if in_array('tags',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_label}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="addtime" {if in_array('addtime',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_adddate}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="linkurl" {if in_array('linkurl',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_jump_url}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="sort" {if in_array('sort',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_sort}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="sortimg" {if in_array('sortimg',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_sort} {$Think.lang.v_img}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="addinfo" {if in_array('addinfo',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_enable_ornot} {$Think.lang.v_addinfo}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="leftdisplay" {if in_array('leftdisplay',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_leftdisplay}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="keywordlink" {if in_array('keywordlink',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_keywordlink}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="deletefile" {if in_array('deletefile',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_file_delete_ornot}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="index_template" {if in_array('index_template',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}
+                                                >{$Think.lang.v_index_template_ornot}
+                                            </label>
+                                            <label class="mr-4">
+                                                <input type="checkbox" name="isdisplay[]" value="view_template" {if in_array('view_template',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}>
+                                                {$Think.lang.v_view_template_ornot}
+                                            </label>
+                                            <label class="mr-4 {if !empty($rs.id) and ($rs.module eq 'News' or $rs.module eq 'About')}hidden{/if}">
+                                                <input type="checkbox" name="isdisplay[]" value="spec" {if in_array('spec',$isdisplay_array) or empty($rs.id)}checked="checked"{/if}> {$Think.lang.v_enable_ornot} {$Think.lang.v_spec}
+                                            </label>
+                                            <label class="mr-4 {if !empty($rs.id) and $rs.module neq 'About'}hidden{/if}">
+                                                <input type="checkbox" name="isdisplay[]" value="parentpage" {if in_array('parentpage',$isdisplay_array)}checked="checked"{/if}> {$Think.lang.v_enable_ornot} {$Think.lang.v_parent_page}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_rand_hits}</div>
+                                <div class="col-md-5">
+                                    <input type="text" name="min_hits" value="{$min_hits}" class="input" /> - <input type="text" name="max_hits" value="{$max_hits}" class="input" />
+                                </div>
+                            </div>
+                            <div class="form-group {if !empty($rs.id) and ($rs.module eq 'News' or $rs.module eq 'About')}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_initial_stock}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="initial_stock" value="{$rs.initial_stock}" placeholder="{$Think.lang.v_initial_stock}" />
+                                </div>
+                            </div>
+                            <div class="form-group {if !empty($rs.id) and ($rs.module eq 'News' or $rs.module eq 'About')}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_stock_unit}</div>
+                                <div class="col-md-5">
+                                    <textarea name="stockunit" rows="5" class="form-control" placeholder="{$Think.lang.v_oneline_onevalue}">{$rs.stockunit}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_cannot_delete_sortid}</div>
+                                <div class="col-md-5">
+                                    <textarea name="no_delete_sortid" rows="2" class="form-control" placeholder="{$Think.lang.v_cannot_delete_sortid}">{$rs.no_delete_sortid}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_cannot_deleteid}</div>
+                                <div class="col-md-5">
+                                    <textarea name="no_deleteid" rows="2" class="form-control" placeholder="{$Think.lang.v_cannot_deleteid}">{$rs.no_deleteid}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_label}</div>
+                            <div class="col-md-5">
+                                <textarea name="tags" rows="4" class="form-control" placeholder="{$Think.lang.v_oneline_onevalue}">{$rs.tags}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_seo} {$Think.lang.v_title}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="seotitle" value="{$rs.seotitle}" placeholder="{$Think.lang.v_seo_use_title}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_keyword}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="keyword" value="{$rs.keyword}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_description}</div>
+                            <div class="col-md-5">
+                                <textarea name="description" rows="4" class="form-control">{$rs.description}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<!--汉字转拼音 开始-->
+<!--前提要引入JQ-->
+<script type="text/javascript">
+function strtopy(){
+    var title = $("#title").val();
+    $.post("{:url('base/pinyin?lang='.input('lang'))}",{title:title},function(data){
+        document.editform.urlroute.value=data;
+    });
+}
+</script>
+<!--汉字转拼音 结束-->
+</body>
+</html>

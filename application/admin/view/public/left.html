@@ -1,0 +1,62 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+                {volist name="modulelist" id="moduleRs"}
+                {php}$isdisplay_array=explode(',',$moduleRs['isdisplay']);{/php}
+                <li class="treeview {if $moduleRs.tabledir eq $Think.get.tabledir or ($Think.get.tabledir eq 'Spec' and $Think.get.moduletable eq $moduleRs.tabledir)}active menu-open{/if}">
+                    <a href="javascript:;">
+                        <i class="fa fa-dot-circle-o text-{$key}"></i> <span>{$moduleRs.title} {$Think.lang.v_manage}</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <!--是否显示添加信息-->
+                        {in name="'addinfo'" value="$isdisplay_array"}
+                            <li class="{if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq $moduleRs.tabledir and $action eq 'edit'}active{/if}">
+                                <a href="{:url($moduleRs['tabledir'].'/edit?tabledir='.$moduleRs['tabledir'].'&lang='.input('lang'))}">
+                                    <i class="fa fa-edit"></i>
+                                    {$Think.lang.v_add} {$moduleRs.title}
+                                    {if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq $moduleRs.tabledir and $action eq 'edit'}<i class="fa fa-angle-right pull-right"></i>{/if}
+                                </a>
+                            </li>
+                        {/in}
+                        <!--信息管理-->
+                        <li class="{if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq $moduleRs.tabledir and $action eq 'index'}active{/if}">
+                            <a href="{:url($moduleRs['tabledir'].'/index?tabledir='.$moduleRs['tabledir'].'&lang='.input('lang').'&signid=1')}">
+                                <i class="fa fa-list-ul"></i>
+                                {$moduleRs.title} {$Think.lang.v_manage}
+                                {if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq $moduleRs.tabledir and $action eq 'index'}<i class="fa fa-angle-right pull-right"></i>{/if}
+                            </a>
+                        </li>
+                        <!--是否显示分类-->
+                        {in name="'sort'" value="$isdisplay_array"}
+                            <li class="{if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq 'Sort'}active{/if}">
+                                <a href="{:url('sort/index?tabledir='.$moduleRs['tabledir'].'&lang='.input('lang'))}">
+                                    <i class="fa fa-sitemap"></i>
+                                    {$moduleRs.title} {$Think.lang.v_sort}
+                                    {if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq 'Sort'}<i class="fa fa-angle-right pull-right"></i>{/if}
+                                </a>
+                            </li>
+                        {/in}
+                        <!--是否显示属性-->
+                        {in name="'attribute'" value="$isdisplay_array"}
+                            <li class="{if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq 'Attribute' and $Think.get.moduletable neq 'Spec'}active{/if}">
+                                <a href="{:url('attribute/index?tabledir='.$moduleRs['tabledir'].'&lang='.input('lang'))}">
+                                    <i class="fa fa-tag"></i>
+                                    {$moduleRs.title} {$Think.lang.v_attribute}
+                                    {if $moduleRs.tabledir eq $Think.get.tabledir and $controller eq 'Attribute' and $Think.get.moduletable neq 'Spec'}<i class="fa fa-angle-right pull-right"></i>{/if}
+                                </a>
+                            </li>
+                        {/in}
+                        <!--规格-->
+                        {if in_array('spec',$isdisplay_array) and !in_array($moduleRs.module,array('About','News'))}
+                            <li class="{if $moduleRs.tabledir eq $Think.get.tabledir and ($controller eq 'Spec' or $Think.get.moduletable eq 'Spec')}active{/if}">
+                                <a href="{:url('spec/index?tabledir='.$moduleRs['tabledir'].'&lang='.input('lang'))}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    {$moduleRs.title} {$Think.lang.v_spec}
+                                    {if $moduleRs.tabledir eq $Think.get.tabledir and ($controller eq 'Spec' or $Think.get.moduletable eq 'Spec')}<i class="fa fa-angle-right pull-right"></i>{/if}
+                                </a>
+                            </li>
+                        {/if}
+                    </ul>
+                </li>
+                {/volist}

@@ -1,0 +1,77 @@
+<!--评论 开始-->
+<!--百度编辑器开始-->
+<script src="/skin/admin/ueditor/ueditor.config.js" type="text/javascript"></script>
+<script src="/skin/admin/ueditor/ueditor.all.min.js" type="text/javascript"></script>
+<!--百度编辑器结束-->
+<div class="w-100 mt-4">
+		<i class="fa fa-edit"></i> {$Think.lang.v_comment_post}
+		<form name="comment_form" action="{:url('comment/edit')}" method="post" onSubmit="return checkComment();">
+		    <input type="hidden" name="infoid" value="{$rs.id}">
+		    <input type="hidden" name="tabledir" value="{$tabledir}">
+			<div class="row">
+				{notempty name="Think.session.username"}
+                    <div class="col-md-12 mb-2"><textarea name="content" id="content1a" class="w-100" style="height:100px;"></textarea></div>
+                    <div class="col-md-12"><label class="float-left"><input type="checkbox" name="anonymous" value="1"> {$Think.lang.v_anonymous}</label> <button type="submit" class="btn btn-sm btn-color float-right"><i class="fa fa-check-circle"></i> {$Think.lang.v_comment_post}</button></div>
+			    {else /}
+			        <div class="col-md-12 mt-2"><div class="alert alert-success mb-3"><i class="fa fa-exclamation-circle"></i> {$Think.lang.v_comment_post_require} <a href="{:url('user/login')}" class="text-success mx-2">{$Think.lang.v_login}</a> | <a href="{:url('user/reg')}" class="text-success ml-2">{$Think.lang.v_reg}</a></div></div>
+			    {/notempty}
+			</div>
+		</form>
+</div>
+<div class="w-100">
+    <i class="fa fa-comments"></i> {$Think.lang.v_comment} （{tag:count table="comment" where="signid=1 and tabledir='$tabledir' and infoid='$id'" /}）
+	<ul class="comments">
+		<li>
+		    {volist name="commentlist" id="commentRs"}
+		    {php}
+		        $avatar = '/skin/admin/bootstrap/layouts/layout/img/avatar.jpg';
+		        if(!empty($commentRs['avatar'])) $avatar = $commentRs['avatar'];
+		        $commentid = $commentRs['id'];
+		    {/php}
+			    <div class="comment">
+				    <div class="img-thumbnail"><img class="avatar" src="{$avatar}" onerror="this.src='/skin/admin/img/nopic.png'"></div>
+				    <div class="comment-block py-2 detail">
+					    <div class="comment-arrow"></div>
+						<strong>{eq name="commentRs.anonymous" value="1"}{$Think.lang.v_anonymous}{else /}{$commentRs.nickname}{/eq}</strong> <span class="text-muted">{$commentRs.addtime|date='Y-m-d H:i'}</span>
+						<span class="float-right"><span> <a href="javascript:void(0);" class="replay_id" parentid="{$commentRs.id}"><i class="fa fa-reply"></i> {$Think.lang.v_reply}</a></span></span>
+					    <p>{$commentRs.content|raw}</p>
+				    </div>
+			    </div>
+			    {tag:list name="subCommentRs" table="comment|user" field="'*'|['avatar','nickname']" union="comment.userid=user.id" where="comment.parentid='$commentid' and comment.signid=1" limit="10" order="comment.addtime desc"}
+                    <ul class="comments reply mb-4">
+				        <li class="pt-0">
+					        <div class="comment">
+						        <div class="img-thumbnail"><img class="avatar" src="{$subCommentRs.avatar}" onerror="this.src='/skin/admin/img/nopic.png'"></div>
+						        <div class="comment-block py-2">
+							        <div class="comment-arrow"></div>
+								    <strong>{eq name="subCommentRs.anonymous" value="1"}{$Think.lang.v_anonymous}{else /}{$subCommentRs.nickname}{/eq}</strong> <span class="text-muted">{$subCommentRs.addtime|date='Y-m-d H:i'}</span>
+							        <p>{$subCommentRs.content|raw}</p>
+						        </div>
+					        </div>
+				        </li>
+			        </ul>
+                {/tag:list}
+			{/volist}
+		</li>
+	</ul>
+</div>
+<!--评论 结束-->
+<!--富文本编辑器开始-->
+<script type="text/javascript">
+    var url='{:url('ueditor/index')}';
+    var ue = UE.getEditor('content1a',{
+        serverUrl :url,
+        toolbars:[
+            ['emotion','horizontal','bold','underline','strikethrough','insertcode','fontsize','forecolor','simpleupload','scrawl']
+        ],
+        elementPathEnabled: false,
+        wordCount:false,
+        'enterTag': 'br',//把换行P改为br
+    });
+    ue.ready(function(){
+        ue.execCommand('serverparam', {
+        'userid': {:session('userid')},
+        });
+    });
+</script>
+<!--富文本编辑器结束-->

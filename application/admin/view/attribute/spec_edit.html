@@ -1,0 +1,85 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_manage}</li>
+                <li>{$navModuleRs.title} {$module_title}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form1" action="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('spec/index?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-puzzle-piece"></i> {$Think.lang.v_spec} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('spec/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_spec}</a>
+                                <a class="btn {eq name="action" value="index"}btn-success{else /}btn-default{/eq} mb-2 mr-2" href="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang').'&moduletable='.input('moduletable'))}"><i class="fa fa-tag"></i> {$Think.lang.v_spec} {$Think.lang.v_attribute}</a>
+                                <a class="btn {eq name="action" value="edit"}btn-success{else /}btn-default{/eq} mb-2 mr-2" href="{:url('attribute/edit?tabledir='.input('tabledir').'&lang='.input('lang').'&moduletable='.input('moduletable'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</div>
+                <div class="box-body">
+                    <form name="editform" id="editform" method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <input type="hidden" name="attvalue" value="{:input('tabledir')}">
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_attribute_name} <span class="text-red inline">*</span></div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="title" value="{$rs.title}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_sequence}</div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" />
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+</body>
+</html>

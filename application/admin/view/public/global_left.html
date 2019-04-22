@@ -1,0 +1,137 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+                <li class="treeview 
+                    {switch controller}
+                        {case value="Siteinfo|Guestbook|User|Area|Field|Chat|Keywordlink|Ad|Navigation|Comment|Module|Filemanage|Attribute"}active menu-open{/case}
+                    {/switch}">
+                    <a href="javascript:;">
+                        <i class="fa fa-globe"></i> <span>{$Think.lang.v_global}</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <!--全局管理 开始-->
+                        <!--网站设置-->
+                        {eq name="Think.config.app.isdisplay.siteinfo" value="1"}
+                            <li class="{eq name="controller" value="Siteinfo"}active{/eq}">
+                                <a href="{:url('siteinfo/index?lang='.input('lang'))}"><i class="fa fa-gear"></i> {$Think.lang.v_siteinfo}{eq name="controller" value="Siteinfo"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                            </li>
+                        {/eq}
+                        <!--字段-->
+                        {eq name="Think.config.app.isdisplay.field" value="1"}
+                        <li class="{eq name="controller" value="Field"}active{/eq}">
+                            <a href="{:url('field/index?lang='.input('lang'))}"><i class="fa fa-list-alt"></i> {$Think.lang.v_field} {$Think.lang.v_manage}{eq name="controller" value="Field"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--留言-->
+                        {eq name="Think.config.app.isdisplay.guestbook" value="1"}
+                        <li class="{if $controller eq 'Guestbook' or ($controller eq 'Attribute' and input('tabledir') eq 'Guestbook')}active{/if}">
+                            <a href="{:url('guestbook/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-commenting-o"></i> {$Think.lang.v_guestbook} {$Think.lang.v_manage}{if $controller eq 'Guestbook' or ($controller eq 'Attribute' and input('tabledir') eq 'Guestbook')}<i class="fa fa-angle-right pull-right"></i>{/if}</a>
+                        </li>
+                        {/eq}
+                        <!--客服-->
+                        {eq name="Think.config.app.isdisplay.chat" value="1"}
+                        <li class="{if $controller eq 'Chat' or ($controller eq 'Attribute' and input('tabledir') eq 'Chat')}active{/if}">
+                            <a href="{:url('chat/index?lang='.input('lang'))}"><i class="fa fa-user-circle-o"></i> {$Think.lang.v_chat}{if $controller eq 'Chat' or ($controller eq 'Attribute' and input('tabledir') eq 'Chat')}<i class="fa fa-angle-right pull-right"></i>{/if}</a>
+                        </li>
+                        {/eq}
+                        <!--广告-->
+                        {eq name="Think.config.app.isdisplay.ad" value="1"}
+                        <li class="{if $controller eq 'Ad' or ($controller eq 'Attribute' and input('tabledir') eq 'Ad')}active{/if}">
+                            <a href="{:url('ad/index?att_type=banner&lang='.input('lang'))}"><i class="fa fa-bullhorn"></i> {$Think.lang.v_ad} {$Think.lang.v_manage}{if $controller eq 'Ad' or ($controller eq 'Attribute' and input('tabledir') eq 'Ad')}<i class="fa fa-angle-right pull-right"></i>{/if}</a>
+                        </li>
+                        {/eq}
+                        <!--关键词-->
+                        {eq name="Think.config.app.isdisplay.keyword" value="1"}
+                        <li class="{eq name="controller" value="Keywordlink"}active{/eq}">
+                            <a href="{:url('keywordlink/index?lang='.input('lang'))}"><i class="fa fa-flag"></i> {$Think.lang.v_keyword} {$Think.lang.v_manage}{eq name="controller" value="Keywordlink"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--导航-->
+                        {eq name="Think.config.app.isdisplay.navigation" value="1"}
+                        <li class="{if $controller eq 'Navigation' or ($controller eq 'Attribute' and input('tabledir') eq 'Navigation')}active{/if}">
+                            <a href="{:url('navigation/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_navigation} {$Think.lang.v_manage}{if $controller eq 'Navigation' or ($controller eq 'Attribute' and input('tabledir') eq 'Navigation')}<i class="fa fa-angle-right pull-right"></i>{/if}</a>
+                        </li>
+                        {/eq}
+                        <!--地区-->
+                        {eq name="Think.config.app.isdisplay.area" value="1"}
+                        <li class="{eq name="controller" value="Area"}active{/eq}">
+                            <a href="{:url('area/index?lang='.input('lang'))}"><i class="fa fa-map-marker"></i> {$Think.lang.v_area} {$Think.lang.v_manage}{eq name="controller" value="Area"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--评论-->
+                        {eq name="Think.config.app.isdisplay.comment" value="1"}
+                        <li class="{eq name="controller" value="Comment"}active{/eq}">
+                            <a href="{:url('comment/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-comments"></i> {$Think.lang.v_comment} {$Think.lang.v_manage}{eq name="controller" value="Comment"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--管理员-->
+                        {eq name="Think.config.app.isdisplay.user" value="1"}
+                        <li class="{eq name="controller" value="User"}active{/eq}">
+                            <a href="{:url('user/index?lang='.input('lang'))}"><i class="fa fa-user"></i> {$Think.lang.v_user} {$Think.lang.v_manage}{eq name="controller" value="User"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--模块-->
+                        <li class="{eq name="controller" value="Module"}active{/eq}">
+                            <a href="{:url('module/index?lang='.input('lang'))}"><i class="fa fa-cubes"></i> {$Think.lang.v_module} {$Think.lang.v_manage}{eq name="controller" value="Module"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        <!--文件-->
+                        {eq name="Think.config.app.isdisplay.filemanage" value="1"}
+                        <li class="{eq name="controller" value="Filemanage"}active{/eq}">
+                            <a href="{:url('filemanage/index?lang='.input('lang'))}"><i class="fa fa-folder"></i> {$Think.lang.v_document} {$Think.lang.v_manage}{eq name="controller" value="Filemanage"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                    </ul>
+                </li>
+                <!--全局管理 结束-->
+                {if $Think.config.app.isdisplay.parameter eq 1 or $Think.config.app.isdisplay.databackup eq 1 or $Think.config.app.isdisplay.authgroup eq 1 or $Think.config.app.isdisplay.authrule eq 1 or $Think.config.app.isdisplay.language eq 1 or $Think.config.app.isdisplay.templatemanage eq 1}
+                <!--系统管理 开始-->
+                <li class="treeview 
+                    {switch controller}
+                        {case value="AuthGroup|AuthRule|Language|Config|Databackup|Templatemanage"}active menu-open{/case}
+                    {/switch}">
+                    <a href="javascript:;">
+                        <i class="fa fa-gears"></i> <span>{$Think.lang.v_system_manage}</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <!--参数设置-->
+                        {eq name="Think.config.app.isdisplay.parameter" value="1"}
+                        <li class="{eq name="controller" value="Config"}active{/eq}">
+                            <a href="{:url('config/index?lang='.input('lang'))}"><i class="fa fa-cogs"></i> {$Think.lang.v_config_setting}{eq name="controller" value="Config"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--数据库-->
+                        {eq name="Think.config.app.isdisplay.databackup" value="1"}
+                        <li class="{eq name="controller" value="Databackup"}active{/eq}">
+                            <a href="{:url('databackup/index?lang='.input('lang'))}"><i class="fa fa-database"></i> {$Think.lang.v_data} {$Think.lang.v_backup}{eq name="controller" value="Databackup"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--权限组-->
+                        {eq name="Think.config.app.isdisplay.authgroup" value="1"}
+                        <li class="{eq name="controller" value="AuthGroup"}active{/eq}">
+                            <a href="{:url('authGroup/index?lang='.input('lang'))}"><i class="fa fa-users"></i> {$Think.lang.v_authgroup} {$Think.lang.v_manage}{eq name="controller" value="AuthGroup"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--权限-->
+                        {eq name="Think.config.app.isdisplay.authrule" value="1"}
+                        <li class="{eq name="controller" value="AuthRule"}active{/eq}">
+                            <a href="{:url('authRule/index?lang='.input('lang'))}"><i class="fa fa-briefcase"></i> {$Think.lang.v_auth} {$Think.lang.v_manage}{eq name="controller" value="AuthRule"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--语言-->
+                        {eq name="Think.config.app.isdisplay.language" value="1"}
+                        <li class="{eq name="controller" value="Language"}active{/eq}">
+                            <a href="{:url('language/index?lang='.input('lang'))}"><i class="fa fa-language"></i> {$Think.lang.v_language} {$Think.lang.v_manage}{eq name="controller" value="Language"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                        <!--模板-->
+                        {eq name="Think.config.app.isdisplay.templatemanage" value="1"}
+                        <li class="{eq name="controller" value="Templatemanage"}active{/eq}">
+                            <a href="{:url('templatemanage/index?lang='.input('lang'))}"><i class="fa fa-file-text"></i> {$Think.lang.v_template} {$Think.lang.v_manage}{eq name="controller" value="Templatemanage"}<i class="fa fa-angle-right pull-right"></i>{/eq}</a>
+                        </li>
+                        {/eq}
+                    </ul>
+                </li>
+                <!--系统管理 结束-->
+                {/if}

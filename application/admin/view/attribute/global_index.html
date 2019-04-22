@@ -1,0 +1,122 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$module_title} {$Think.lang.v_manage}</li>
+                <li>{$module_title} {$Think.lang.v_attribute}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <form name="form1" action="" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8 mb-2">
+                            <div class="row">
+                                {switch Think.get.tabledir}
+                                    {case Ad}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('ad/index?att_type=banner&lang='.input('lang'))}"><i class="fa fa-image"></i> {$Think.lang.v_banner} {$Think.lang.v_manage}</a>
+                                        <a class="btn {if input('att_type') eq 'link'}btn-success{else /}btn-default{/if} mb-2 mr-2" href="{:url('ad/index?att_type=link&lang='.input('lang'))}"><i class="fa fa-link"></i> {$Think.lang.v_friendlink} {$Think.lang.v_manage}</a>
+                                        {tag:list name="atRs" table="attribute" where="lang='$lang' and tabledir='Ad'" limit="10" order="sequence desc"}
+                                            <a class="btn {if input('att_type') eq $atRs['title']}btn-success{else /}btn-default{/if} mb-2 mr-2" href="{:url('ad/index?lang='.input('lang').'&att_type='.$atRs['title'])}"><i class="fa fa-navicon"></i> {$atRs.title} {$Think.lang.v_manage}</a>
+                                        {/tag:list}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('ad/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_ad}</a>
+                                    {/case}
+                                    {case Chat}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('chat/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_chat} {$Think.lang.v_manage}</a>
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('chat/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_chat}</a>
+                                    {/case}
+                                    {case Guestbook}
+                                        {eq name="Think.config.app.isdisplay.user" value="1"}
+                                            <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-eye"></i> {$Think.lang.v_no_reply}</a>
+                                            <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=1')}"><i class="fa fa-check"></i> {$Think.lang.v_yes_reply}</a>
+                                        {else /}
+                                            <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-eye"></i> {$Think.lang.v_guestbook} {$Think.lang.v_manage}</a>
+                                        {/eq}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=9')}"><i class="fa fa-recycle"></i> {$Think.lang.v_recycle}</a>
+                                    {/case}
+                                    {case Navigation}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('navigation/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_navigation} {$Think.lang.v_manage}</a>
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('navigation/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_navigation}</a>
+                                    {/case}
+                                {/switch}
+                                <a class="btn {eq name="action" value="index"}btn-success{else /}btn-default{/eq} mb-2 mr-2" href="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-tag"></i> {$Think.lang.v_attribute} {$Think.lang.v_manage}</a>
+                                <a class="btn {eq name="action" value="edit"}btn-success{else /}btn-default{/eq} mb-2" href="{:url('attribute/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <form name="form2" id="form2" action="" method="post">
+                            <tr>
+                                <th>ID</th>
+                                <th>{$Think.lang.v_type}</th>
+                                <th class="hidden-xs">{$Think.lang.v_sequence}</th>
+                                <th>{$Think.lang.v_do}</th>
+                            </tr>
+                            {volist name="list" id="rs"}
+                                <input type="hidden" name="id[]" value="{$rs.id}" />
+                                <tr>
+                                    <td><label><input type="checkbox" name="selectid[]" id="selectid" value="{$rs.id}" /><span class="hidden-xs"> {$rs.id}</span></label></td>
+                                    <td><input name="title[]" type="text" value="{$rs.title}" class="form-control" /></td>
+                                    <td class="hidden-xs"><input name="sequence[]" type="text" value="{$rs.sequence}" class="form-control" /></td>
+                                    <td>
+                                        <a href="{:url('attribute/edit?id='.$rs['id'].'&tabledir='.input('tabledir').'&lang='.input('lang'))}" class="btn btn-sm btn-success mb-2 mr-2"><i class="fa fa-edit"></i> {$Think.lang.v_edit}</a>
+                                        <a class="btn btn-sm btn-danger mb-2" onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('attribute/delete_one?lang='.input('lang').'&id='.$rs['id'])}"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                    </td>
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td colspan="4">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 mt-2"><div class="pull-left">{$list->render()|raw}</div><div class="pull-left">{$Think.lang.v_total} {$lastPage} {$Think.lang.v_page} {$total} {$Think.lang.v_records}</div></div>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                                <button type="button" class="btn btn-success mt-2 mb-2 mr-2 hidden-xs" onClick='ConfirmDel("","{:url('attribute/update_all?lang='.input('lang'))}","update");'><i class="fa fa-arrow-circle-o-up"></i> {$Think.lang.v_batch} {$Think.lang.v_update}</button>
+                                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('attribute/delete_all?lang='.input('lang'))}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+</body>
+</html>

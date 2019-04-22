@@ -1,0 +1,52 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.lang.v_do_tips}</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="author" content="www. ">
+    <!--[if lt IE 9]>
+    <script src="/skin/admin/js/html5shiv.min.js"></script>
+    <script src="/skin/admin/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/skin/admin/css/global.min.css">
+</head>
+<body class="login">
+<div class="jump">
+        {switch $code}
+            {case 1}
+                <img src="/skin/admin/img/success.png" align="absmiddle"><br><br>
+                {if mb_strlen($msg,'utf-8') gt 6}
+                    <h3 class="success">{php}echo(strip_tags($msg));{/php}</h3>
+                {else /}
+                    <h1 class="success">{php}echo(strip_tags($msg));{/php}</h1>
+                {/if}
+            {/case}
+            {case 0}
+                <img src="/skin/admin/img/error.png" align="absmiddle"><br><br>
+                {if mb_strlen($msg,'utf-8') gt 6}
+                    <h3 class="error">{php}echo(strip_tags($msg));{/php}</h3>
+                {else /}
+                    <h1 class="error">{php}echo(strip_tags($msg));{/php}</h1>
+                {/if}
+            {/case}
+        {/switch}
+        <br>{$Think.lang.v_page_auto} <a id="href" href="{$url}">{$Think.lang.v_jump}</a> {$Think.lang.v_waittime}： <b id="wait">{$wait}</b>
+</div>
+<script type="text/javascript">
+    (function(){
+         var wait = document.getElementById('wait'),
+         href = document.getElementById('href').href;
+         var interval = setInterval(function(){
+             var time = --wait.innerHTML;
+             if(time <= 0) {
+                 location.href = href;
+                 clearInterval(interval);
+             };
+        }, 1000);
+    })();
+</script>
+</body>
+</html>

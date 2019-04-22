@@ -1,0 +1,63 @@
+<!--回复评论 开始-->
+<script type="text/javascript">
+document.onclick = function(e){
+    {notempty name="Think.session.userid"}
+        e = e || event;
+        var obj = $(e.srcElement || e.target);
+        if (obj.closest('.reply_sign').attr('class') != 'comments mb-3 reply_sign') {
+            $('.reply_sign').remove();
+        }
+    {/notempty}
+}
+$('.replay_id').on("click",function(e){
+	var parent = $(this).closest('.comment');
+    var reply_sign = $('.reply_sign');
+    if(reply_sign.length < 1){
+        parent.append('<span class="reply_sign"></span>');
+        {empty name="Think.session.userid"}
+            parent.after('<ul class="comments mb-3 reply_sign"><i class="fa fa-exclamation-circle"></i> {$Think.lang.v_comment_post_require} <a href="{:url('user/login')}">{$Think.lang.v_login}</a> | <a href="{:url('user/reg')}">{$Think.lang.v_reg}</a></ul>');
+        {else /}
+            var reply_html = '<ul class="comments mb-3 reply_sign">';
+                reply_html += '<form name="comment_form2" action="{:url('comment/edit')}" method="post" onSubmit="return checkComment2();">';
+                reply_html += '<input type=hidden name=parentid>';
+                reply_html += '<textarea name="content" class="form-control mb-2" rows="2"></textarea>';
+                reply_html += '<div class="row"><div class="col-md-12 clearfix">';
+                reply_html += '<label class="float-left"><input type="checkbox" name="anonymous" value="1"> {$Think.lang.v_anonymous}</label>';
+                reply_html += '<button type="submit" class="btn btn-sm btn-color float-right"><i class="fa fa-check-circle"></i> {$Think.lang.v_comment_post}</button>';
+                reply_html += '</div></div>';
+                reply_html += '</form>';
+                reply_html += '</ul>';
+            parent.after(reply_html);
+            $('.reply_sign').find(':hidden[name=parentid]').val($(this).attr('parentid'));
+        {/empty}
+        
+    }else{
+        reply_sign.remove();
+    }
+    e = e || event;
+    e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+});
+</script>
+<!--回复评论 结束-->
+<script type="text/javascript">
+/*评论检查*/
+function checkComment(){
+    var comment_form = document.comment_form;
+    var content = document.comment_form.content.value;
+    if(content.length < 2 || content.length > 500){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.y_comment_error}",1000);
+        ue.focus();
+        return false;
+    }
+}
+/*回复检查*/
+function checkComment2(){
+    var comment_form2 = document.comment_form2;
+    var content = document.comment_form2.content.value;
+    if(content.length < 2 || content.length > 500){
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.y_comment_error}",1000);
+        comment_form2.content.focus();
+        return false;
+    }
+}
+</script>

@@ -1,0 +1,30 @@
+<!--全选/反选 开始-->
+<script src="__ADMIN__/icheck/icheck.min.js"></script>
+<script>
+$(function () {
+    $(".checkbox-toggle").click(function () {
+        var clicks = $(this).data('clicks');
+        if (clicks) {
+            $(".box-body input[type='checkbox']").iCheck("uncheck");
+            $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+        } else {
+            $(".box-body input[type='checkbox']").iCheck("check");
+            $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+        }
+        $(this).data("clicks", !clicks);
+    });
+});
+//全部执行(删除)
+function ConfirmDel(message,url,deal) {
+    if(deal=="delete"){
+        if(confirm(message)){
+            document.form2.action=url;  
+            document.form2.submit();
+        }
+    }else if(deal=="update"){
+        document.form2.action=url;  
+        document.form2.submit();
+    }
+}
+</script>
+<!--全选/反选 结束-->

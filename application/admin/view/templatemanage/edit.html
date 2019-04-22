@@ -1,0 +1,117 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_system_manage}</li>
+                <li>{$Think.lang.v_template} {$Think.lang.v_manage}</li>
+                <li>{$Think.lang.v_edit} {$txtsign}</li>
+                <li class="text-red">{$Think.lang.v_edit} {$Think.lang.v_document}：{$root_path}{$Think.get.mulu}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <a href="{$goback}" class="btn btn-info mr-2"><i class="fa fa-reply-all"></i> {$Think.lang.v_goback}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {$Think.lang.v_edit} {$Think.lang.v_document}：<span class="text-red">{$root_path}{$Think.get.mulu}</span></div>
+                <div class="box-body">
+                    <form method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="form-group">
+                            <div class="col-md-2 control-label text-red">{$Think.lang.v_document} {$Think.lang.v_content_a} *</div>
+                            <div class="col-md-10">
+                                <textarea name="content" rows="35" class="form-control">{$content}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">{$Think.lang.v_whether} {$Think.lang.v_backup} {$Think.lang.v_oldfile}</div>
+                            <div class="col-md-10 checkbox">
+                                <label>
+                                    <input type="checkbox" name="backup[]" value="1" checked="checked"> {$Think.lang.v_yes}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-2 col-md-10 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <a class="btn btn-default" href="{$goback}"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</a>
+                        </div>
+                        {notempty name="baklist"}
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">{$Think.lang.v_backup} {$Think.lang.v_document}</div>
+                            <div class="col-md-10">
+                                <table class="table table-bordered table-hover">
+                                    {foreach $baklist as $key=>$backfile}
+                                        <tr>
+                                            <td>{$key+1}</td>
+                                            <td>{$backfile}</td>
+                                            <td><a class="btn btn-xs btn-info" onClick='return confirm("{$Think.lang.v_data_restore_tips}？");' href="{:url('templatemanage/restore?mulu='.$folder.'&filename='.$backfile.'&lang='.input('lang').'&fromwhere='.$fromwhere)}"><i class="fa fa-reply-all"></i> {$Think.lang.v_restore}</a></td>
+                                            <td><a class="btn btn-xs btn-danger" onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.$folder.'&filename='.$backfile.'&lang='.input('lang').'&fromwhere='.$fromwhere)}"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a></td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
+                        </div>
+                        {/notempty}
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<!--新建目录-->
+<div class="modal fade" id="creatfolder" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h5 class="modal-title text-green"><i class="fa fa-plus-circle"></i> {$Think.lang.v_addnew} {$Think.lang.v_module_mulu}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form name="form1" action="{:url('templatemanage/creatfolder?lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="folderpath" value="{$folder}">
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <h5>{$Think.lang.v_mulu_title}：</h5>
+                            <input type="text" name="foldername" class="form-control" maxlength="20" placeholder="{$Think.lang.v_english_only}">
+                        </div>
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> {$Think.lang.v_close}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

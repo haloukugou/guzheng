@@ -1,0 +1,43 @@
+        <!--侧边栏 开始-->
+		<div class="col-md-3">
+			<div class="page-right pb-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item pl-0 pr-0 pt-0"><i class="fa fa-user"></i> <a href="{:url('user/index')}" class="h6">{$Think.lang.v_usercenter}</a></li>
+                    <li class="list-group-item pl-0 pr-0"><i class="fa fa-edit"></i> <a href="{:url('user/edit')}">{$Think.lang.v_edit} {$Think.lang.v_user_info}</a></li>
+                    <li class="list-group-item pl-0 pr-0"><i class="fa fa-lock"></i> <a href="{:url('user/password')}">{$Think.lang.v_edit} {$Think.lang.v_password}</a></li>
+                    <li class="list-group-item pl-0 pr-0">
+                        <span class="float-left"><i class="fa fa-coffee"></i> <a href="{:url('guestbook/myguestbook')}">{$Think.lang.v_ask_answer}</a></span>
+                        <span class="float-right"><i class="fa fa-edit"></i> <a href="{:url('guestbook/edit')}">{$Think.lang.v_submit_message}</a></span>
+                    </li>
+                    {eq name="Think.config.isdisplay.comment" value="1"}<li class="list-group-item pl-0 pr-0"><i class="fa fa-comments"></i> <a href="{:url('comment/mycomment')}">{$Think.lang.v_mycomment}</a></li>{/eq}
+                    <li class="list-group-item pl-0 pr-0"><i class="fa fa-power-off"></i> <a href="javascript:void(0);" onClick="javascript:logout();">{$Think.lang.v_quit}</a></li>
+                </ul>
+            </div>
+		</div>
+		<!--侧边栏 结束-->
+<script type="text/javascript">
+/*ajax 开始*/
+function logout(){
+    $.confirm("{$Think.lang.v_quit_confirm}?", "{$Think.lang.v_quit}", function() {
+        $.ajax({
+            type: 'POST',
+            url: '{:url('user/logout')}',
+            dataType: 'json',
+            success: function(data){
+                if(data == 1){
+                    $.toast("<div class='mx-3 h6'><i class='fa fa-check-circle fa-3x text-white mb-3'></i><br>{$Think.lang.c_success}</div>",1000,function(){
+                        window.location.href = '{$root}';
+                    });
+                }else{
+                    $.toast("<div class='mx-3 h6'><i class='fa fa-times-circle fa-3x text-danger mb-3'></i><br>"+data+"</div>",1000,function(){
+                        return false;
+                    });
+                }
+            }
+        });
+    }, function() {
+        return false;
+    });
+}
+/*ajax 结束*/
+</script>

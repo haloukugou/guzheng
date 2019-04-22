@@ -1,0 +1,20 @@
+/*全局 开始*/
+@charset "utf-8";
+a:hover{color:#08c;}
+.btn-color{color:#fff;background-color:#08c;border-color:#069}.btn-color:hover{color:#fff;background-color:#069;border-color:#08c}
+/*规格*/
+[data-prime].active{background:#08c;border-color:#08c;}
+/*主题*/
+.page-right{border-top:2px solid #08c;}
+/*折叠伸缩*/
+ul.nav-list li > a.active{color: #08c;}
+/*选项卡*/
+.nav-tabs li.active .nav-link{border-top: 3px solid #08c;}
+/*分页*/
+.pages a:hover{border-color:#069;background:#08c;}.pages li.active span{background:#08c;border-color:#069;}
+/*产品/鼠标移动到图片显示文字及按钮*/
+.thumb-info .thumb-info-type{background-color: #08c;}
+/*头部*/
+#header .header-body{border-top: 3px solid #08c;}
+/*头部导航主体*/
+#header .header-nav.header-nav-links nav > ul > li:hover > a{color: #08c !important;}

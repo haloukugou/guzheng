@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$title}</title>
+<meta name="keywords" content="{$keyword}" />
+<meta name="description" content="{$description}" />
+<meta name="author" content="www. ">
+{include file="public/css" /}
+</head>
+<body>
+{include file="public/head" /}
+<!--面包屑 开始-->
+<div class="w-100 bg-light py-3" style="background:url({$page_banner}) center center no-repeat 100% 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 pt-2">
+                <a href="{$home_path}" class="mr-2">{$Think.lang.v_home}</a> <i class="fa fa-angle-right"></i>
+                <a href="{$module_path}" class="ml-2">{$title}</a>
+                {if !empty(input('keyword'))}<i class="fa fa-angle-right ml-2 mr-2"></i>{$Think.lang.v_search}<span class="text-danger ml-2">“{:input('keyword')}”</span>{/if}
+            </div>
+        </div>
+    </div>
+</div>
+<!--面包屑 结束-->
+<!--主体 开始-->
+<div class="container mt-5">
+    <h1 class="h6 text-center">{$title}</h1>
+    <div class="row">
+        <div class="col-md-12 mb-3"><div class="divider"><i class="fa fa-chevron-down"></i></div></div>
+        {empty name="list"}<div class="col-md-12 text-center">{$Think.lang.v_nodata}</div>{/empty}
+        {volist name="list" id="rs"}
+            <div class="col-md-4">
+                <h6><i class="fa fa-dot-circle font-weight-light small"></i> <a href="{:url($lang_path.$rs['urlroute'].'-'.$rs['routesign'].$rs['id'])}">{$rs.title}</a></h6>
+                <p class="text-muted">{$rs.description|raw}</p>
+            </div>
+        {/volist}
+    </div>
+    <!--分页-->
+    <div class="row mt-5">
+        <div class="col-md-4">{$Think.lang.v_total} {$last_page} {$Think.lang.v_page} {$total} {$Think.lang.v_records}</div>
+        <div class="col-md-8">
+            <div class="pages float-right">{$list->render()|raw}</div>
+        </div>
+    </div>
+</div>
+<!--主体 结束-->
+{include file="public/foot" /}
+</body>
+</html>

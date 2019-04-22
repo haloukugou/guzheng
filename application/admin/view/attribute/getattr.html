@@ -1,0 +1,47 @@
+{volist name="list" id="rs"}
+{php}$checked = ''; $attvalue_arr = explode(PHP_EOL,$rs['attvalue']);{/php}
+<input type="hidden" name="att_title{$key}" value="{$rs.title}">
+<input type="hidden" name="att_fieldtype{$key}" value="{$rs.fieldtype}">
+<div class="form-group">
+    <div class="col-md-3 control-label">{$rs.title}</div>
+    {switch rs.fieldtype}
+        {case radio}
+            <div class="col-md-9 radio">
+                {foreach $attvalue_arr as $i=>$attvalue}
+                    {php}
+                        $att_value = str_replace('*','',$attvalue);
+                        $found_key = array_search($att_value,$rs_attvalue);
+                    {/php}
+                    <label class="mr-2">
+                        <input type="radio" name="attvalue{$key}" value="{$att_value}" {if (empty($rs_attvalue) and strpos($attvalue,'*') !== false) or $found_key !== false}checked="checked"{/if}/> {$att_value}
+                    </label>
+                {/foreach}
+            </div>
+        {/case}
+        {case checkbox}
+            <div class="col-md-9 checkbox">
+                {foreach $attvalue_arr as $i=>$attvalue}
+                    {php}
+                        $att_value = str_replace('*','',$attvalue);
+                        $found_key = 0;
+                        if(!empty($rs_attvalue)){
+                            $checkboxArr = explode('|',$rs_attvalue[$key]);
+                            $found_key = in_array($att_value,$checkboxArr);
+                        }
+                    {/php}
+                    <label class="mr-2">
+                         <input type="checkbox" name="attvalue{$key}[]" value="{$att_value}" {if (empty($rs_attvalue) and strpos($attvalue,'*') !== false) or $found_key === true}checked="checked"{/if}/>  {$att_value}
+                    </label>
+                {/foreach}
+            </div>
+        {/case}
+        {case text}
+            <div class="col-md-5"><input type="text" name="attvalue{$key}" class="form-control" value="{notempty name="rs_attvalue"}{$rs_attvalue[$key]}{/notempty}" /></div>
+        {/case}
+        {case textarea}
+            <div class="col-md-5"><textarea name="attvalue{$key}" class="form-control" rows="5">{notempty name="rs_attvalue"}{$rs_attvalue[$key]}{/notempty}</textarea></div>
+        {/case}
+    {/switch}
+</div>
+{/volist}
+<input type="hidden" name="att_num" value="{$key}">

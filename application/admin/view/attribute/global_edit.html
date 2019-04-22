@@ -1,0 +1,133 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$module_title} {$Think.lang.v_manage}</li>
+                <li>{$module_title} {$Think.lang.v_attribute}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form1" action="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8">
+                            <div class="row">
+                                {switch Think.get.tabledir}
+                                {case Ad}
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('ad/index?att_type=banner&lang='.input('lang'))}"><i class="fa fa-image"></i> {$Think.lang.v_banner} {$Think.lang.v_manage}</a>
+                                    <a class="btn {if input('att_type') eq 'link'}btn-success{else /}btn-default{/if} mb-2 mr-2" href="{:url('ad/index?att_type=link&lang='.input('lang'))}"><i class="fa fa-link"></i> {$Think.lang.v_friendlink} {$Think.lang.v_manage}</a>
+                                    {tag:list name="atRs" table="attribute" where="lang='$lang' and tabledir='Ad'" limit="10" order="sequence desc"}
+                                        <a class="btn {if input('att_type') eq $atRs['title']}btn-success{else /}btn-default{/if} mb-2 mr-2" href="{:url('ad/index?lang='.input('lang').'&att_type='.$atRs['title'])}"><i class="fa fa-navicon"></i> {$atRs.title} {$Think.lang.v_manage}</a>
+                                    {/tag:list}
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('ad/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_ad}</a>
+                                {/case}
+                                {case Chat}
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('chat/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_chat} {$Think.lang.v_manage}</a>
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('chat/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_chat}</a>
+                                {/case}
+                                {case Guestbook}
+                                    {eq name="Think.config.app.isdisplay.user" value="1"}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-eye"></i> {$Think.lang.v_no_reply}</a>
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=1')}"><i class="fa fa-check"></i> {$Think.lang.v_yes_reply}</a>
+                                    {else /}
+                                        <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=3')}"><i class="fa fa-eye"></i> {$Think.lang.v_guestbook} {$Think.lang.v_manage}</a>
+                                    {/eq}
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('guestbook/index?lang='.input('lang').'&signid=9')}"><i class="fa fa-recycle"></i> {$Think.lang.v_recycle}</a>
+                                {/case}
+                                {case Navigation}
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('navigation/index?lang='.input('lang'))}"><i class="fa fa-navicon"></i> {$Think.lang.v_navigation} {$Think.lang.v_manage}</a>
+                                    <a class="btn btn-default mb-2 mr-2" href="{:url('navigation/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_navigation}</a>
+                                {/case}
+                            {/switch}
+                            <a class="btn {eq name="action" value="index"}btn-success{else /}btn-default{/eq} mb-2 mr-2" href="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-tag"></i> {$Think.lang.v_attribute} {$Think.lang.v_manage}</a>
+                            <a class="btn {eq name="action" value="edit"}btn-success{else /}btn-default{/eq} mb-2 mr-2" href="{:url('attribute/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</div>
+                <div class="box-body">
+                    <form name="editform" id="editform" method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_attribute_name} <span class="text-red inline">*</span></div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="title" value="{$rs.title}" />
+                            </div>
+                        </div>
+                        <div class="form-group {if !in_array(input('tabledir'),array('Guestbook'))}hidden{/if}">
+                            <div class="col-md-3 control-label">{$Think.lang.v_display_method}</div>
+                            <div class="col-md-5">
+                                <label class="radio-inline">
+                                    <input name="fieldtype" type="radio" value="radio"{if $rs.fieldtype eq 'radio' or empty($rs.fieldtype)} checked="checked"{/if} />{$Think.lang.v_method_select}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="fieldtype" value="checkbox"{eq name="rs.fieldtype" value="checkbox"} checked="checked"{/eq} />{$Think.lang.v_method_checkbox}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="fieldtype" value="text"{eq name="rs.fieldtype" value="text"} checked="checked"{/eq} />{$Think.lang.v_method_text}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="fieldtype" value="textarea"{eq name="rs.fieldtype" value="textarea" } checked="checked"{/eq} />{$Think.lang.v_method_textarea}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group {if !in_array(input('tabledir'),array('Guestbook'))}hidden{/if}">
+                            <div class="col-md-3 control-label">{$Think.lang.v_attribute_value}</div>
+                            <div class="col-md-4">
+                                <textarea name="attvalue" rows="5" class="form-control" placeholder="{$Think.lang.v_oneline_onevalue}">{$rs.attvalue}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_sequence}</div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control checkstock" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" />
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+</body>
+</html>

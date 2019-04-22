@@ -1,0 +1,93 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<!--规格开始-->
+<div id="tab_home">
+    <table class="table">
+        <tr>
+            <td class="sku-style"> 
+                <div class="sku-wrap">
+                    <div id="sku_lists">
+                    {foreach name="skus" item="row"}
+                        {if $row.spec_sign eq 'color' or $row.spec_sign eq 'thumb'}
+                        <div class="sku-group">
+                            <div class="sku-box sku-color">
+                                <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$row.title}" data_sku_parent_code="{$row.spec_sign}"data_sku_is_required='{$row.is_required}'>
+                                    <li class="sku-item">{$row.title}：</li>
+                                    {foreach name="row['sub']" item="row2"} 
+                                        <li class="sku-item">
+                                            <input type="checkbox" id="sku_{$row2.id}" {$row2.id|getEqual=###,$sku_ids,'checked','in'} value="{$row2.id}" name="sku_{$row.id}" class="j_checkbox sku_id" autocomplete="off">
+                                            <label style="background-color:{$row2.spec_value};" data-bgcolor="{$row2.spec_value}" class="color-lump" for="sku_{$row2.id}"></label>
+                                            <label title="{$row2.title}" class="labelname" id='labelname_{$row2.id}' for="sku_{$row2.id}" {$row2.title|getNoEqual=###,$row2['name2'],'style=display:none'}>{$row2.title}</label>
+                                            <input class="editbox text" type="text" value="{$row2.name2|stripColorTags}" {$row2.title|getNoEqual=###,$row2['name2'],'style=display:inline-block'}  maxlength="15" autocomplete="off" onkeyup="remark_name_keyup($(this))">
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                        {else /}
+                        <div class="sku-group">
+                            <div class="sku-box">
+                                <ul class="sku-list" id="sku_{$row.spec_sign}" data_sku_parent_word="{$row.title}" data_sku_parent_code="{$row.spec_sign}" data_sku_is_required='{$row.is_required}'>
+                                    <li class="sku-item">{$row.title}：</li>
+                                    {foreach name="row['sub']" item="row2"}
+                                        <li class="sku-item">
+                                            <input type="checkbox" id="sku_{$row2.id}" {$row2.id|getEqual=###,$sku_ids,'checked','in'} value="{$row2.id}" name="sku_{$row.id}" class="j_checkbox sku_id" autocomplete="off">
+
+                                            <label title="{$row2.title}" class="labelname" for="sku_{$row2.id}" {$row2.title|getNoEqual=###,$row2['name2'],'style=display:none'}>{$row2.title}</label>
+                                            <input class="editbox text" type="text" value="{$row2.name2|stripColorTags}" {$row2.title|getNoEqual=###,$row2['name2'],'style=display:inline-block'}  maxlength="15" autocomplete="off" onkeyup="remark_name_keyup($(this))">
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                        {/if}
+                    {/foreach}
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <div class="batchset">
+                            <span class="pull-left text-red">{$Think.lang.v_batch} {$Think.lang.v_setting}：</span>
+                            <a href="javascript:void(0);" data-tag="sale_price" class="text-red mr-2"><u>{$Think.lang.v_sale_price}</u></a>
+                            <a href="javascript:void(0);" data-tag="market_price" class="text-red mr-2"><u>{$Think.lang.v_market_price}</u></a>
+                            <a href="javascript:void(0);" data-tag="cost_price" class="text-red mr-2"><u>{$Think.lang.v_cost_price}</u></a>
+                            <a href="javascript:void(0);" data-tag="stock" class="text-red"><u>{$Think.lang.v_stock}</u></a>
+                            <input type="text" class="form-control pull-left mr-2" style="display:none;width:150px; height:32px;" />
+                            <button type="button" class="btn-ok btn btn-sm btn-info pull-left mr-2" style="display:none;">确定</button>
+                            <button type="button" class="btn-cancle btn btn-sm btn-default pull-left" style="display:none;">取消</button>
+                        </div>
+                    </div>
+                    <table cellspacing="0" border="0" id="tables_sku" class="tables_sku" width="100%">
+                        <tr id="tables_thead_tr_sku">
+                            {foreach name="skus" item="row"}
+                                <th>{$row.title}</th>
+                            {/foreach}
+                            <th width="100">{$Think.lang.v_img}</th>
+                            <th width="100"><span class="text-red">{$Think.lang.v_sale_price}</span></th>
+                            <th width="100"><span class="text-red">{$Think.lang.v_market_price}</span></th>
+                            <th width="100"><span class="text-red">{$Think.lang.v_cost_price}</span></th>
+                            <th width="100"><span class="text-red">{$Think.lang.v_stock}</span></th>
+                            <th width="100">{$Think.lang.v_model_number}</th>
+                            <th width="100"><span class="text-red">{$Think.lang.v_default_set}</span></th>
+                        </tr>
+                        <tbody id="tables_tbody_sku" data-default="{$rs.sku_default}"></tbody>
+                    </table>
+                </div>
+                <div class="msg-attention" id='msg-attention'><i class="fa fa-exclamation-circle"></i> {$Think.lang.v_spec_tips}。</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="goods_sku_input">
+    {foreach name="sku_json" item="row"}
+        <input class="specimg_sku_{$row.id}" type="hidden" value="{$row.specimg}" autocomplete="off">
+        <input class="price_sku_{$row.id}" type="hidden" value="{$row.price}" autocomplete="off">
+        <input class="marketprice_sku_{$row.id}" type="hidden" value="{$row.marketprice}" autocomplete="off">
+        <input class="costprice_sku_{$row.id}" type="hidden" value="{$row.costprice}" autocomplete="off">
+        <input class="stock_sku_{$row.id}" type="hidden" value="{$row.stock}" autocomplete="off">
+        <input class="code_sku_{$row.id}" type="hidden" value="{$row.code}" autocomplete="off">
+    {/foreach}
+</div>
+<script src="__ADMIN__/js/sku_remark_default.js"></script>
+<script src="__ADMIN__/js/sku.js"></script>
+<script src="__ADMIN__/js/sku_batchset.js"></script>
+<!--规格 结束-->

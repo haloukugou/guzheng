@@ -1,0 +1,60 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<link href="__ADMIN__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h5 class="modal-title"><img src="{$userRs.avatar}" class="img-circle" style="width:20px;height:20px;" onerror="this.src='__ADMIN__/img/avatar.png'"> {$userRs.nickname} {$rs.addtime|date='Y-m-d H:i'}</h5>
+</div>
+<div class="modal-body">
+    <form name="form1" method="post" action="{:url('guestbook/edit?lang='.input('lang'))}">
+    <input type="hidden" name="id" value="{$rs.id}">
+    <div class="row">
+        {notempty name="rs.attvalue"}
+            {php}$attvalueArr = explode('<br>',$rs['attvalue']);{/php}
+            <div class="col-md-12 mb-2">
+                {foreach $attvalueArr as $attvalue}
+                    {php}$nameValueArr = explode('：',$attvalue);{/php}
+                    <div class="form-control-static mr-2"><span class="text-red">{:str_replace('*','',$nameValueArr[0])}：</span>{:str_replace('*','',$nameValueArr[1])}</div>
+                {/foreach}
+            </div>
+        {/notempty}
+        <div class="col-md-12 mb-2">
+            {notempty name="rs.title"}<div class="form-control-static mr-2">{$rs.title}</div>{/notempty}
+            {notempty name="rs.realname"}<div class="form-control-static mr-2">{$rs.realname}</div>{/notempty}
+            {notempty name="rs.contact"}<div class="form-control-static mr-2">{$rs.contact}</div>{/notempty}
+            {notempty name="rs.telephone"}<div class="form-control-static mr-2">{$rs.telephone}</div>{/notempty}
+            {notempty name="rs.mobile"}<div class="form-control-static mr-2">{$rs.mobile}</div>{/notempty}
+            {notempty name="rs.qq"}<div class="form-control-static mr-2">{$rs.qq}</div>{/notempty}
+            {notempty name="rs.email"}<div class="form-control-static mr-2">{$rs.email}</div>{/notempty}
+            {notempty name="rs.company"}<div class="form-control-static mr-2">{$rs.company}</div>{/notempty}
+        </div>
+        <div class="col-md-12 mb-2">{$Think.lang.v_guestbook} {$Think.lang.v_content_a}：</div>
+        <div class="col-md-12 mb-2">
+            {eq name="Think.config.app.isdisplay.user" value="1"}
+                <textarea name="content" class="form-control" rows="10">{$rs.content|raw}</textarea>
+            {else /}
+                {$rs.content|raw}
+            {/eq}
+        </div>
+        <div class="form-group radio {neq name="Think.config.app.isdisplay.user" value="1"}hidden{/neq}">
+            <label class="mr-2">{$Think.lang.v_status}：</label>
+            <label class="mr-2 text-blue">
+                <input type="radio" name="signid" value="3" {eq name="rs.signid" value="3"}checked="checked"{/eq} /> {$Think.lang.v_no_reply}
+            </label>
+            <label class="mr-2 text-green">
+                <input type="radio" name="signid" value="1" {eq name="rs.signid" value="1"}checked="checked"{/eq} /> {$Think.lang.v_yes_reply}
+            </label>
+            <label class="text-red">
+                <input type="radio" name="signid" value="{php}echo time();{/php}" {gt name="rs.signid" value="8"}checked="checked"{/gt} /> {$Think.lang.v_recycle}
+            </label>
+        </div>
+        <div class="col-md-12 mt-2 text-center">
+            {eq name="Think.config.app.isdisplay.user" value="1"}
+                <button type="submit" class="btn btn-info mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save} {$Think.lang.v_edit}</button>
+            {/eq}
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> {$Think.lang.v_close}</button>
+        </div>
+    </div>
+    </form>
+</div>

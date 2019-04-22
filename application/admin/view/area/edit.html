@@ -1,0 +1,91 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_area} {$Think.lang.v_manage}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_area}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form1" action="{:url('area/index?lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <a class="btn btn-default mb-2 mr-4" href="{:url('area/index?lang='.input('lang'))}"><i class="fa fa-map-marker"></i> {$Think.lang.v_area} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-success mb-2" href="{:url('area/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_area}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_area}</div>
+                <div class="box-body">
+                    <form method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_areaname} <span class="text-red inline">*</span></div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="title" value="{$rs.title}" placeholder="{$Think.lang.v_areaname_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_belong} {$Think.lang.v_area}</div>
+                            <div class="col-md-4">
+                                <select name="parentid" class="form-control">
+                                    <option value="">{$Think.lang.v_top_area}</option>
+                                    {foreach name="Area" item="k"}
+                                        <option value="{$k.id}" {eq name="rs.parentid" value="$k.id"}selected="selected"{/eq}>{$k.html} {$k.title}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_sequence}</div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" />
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+</body>
+</html>

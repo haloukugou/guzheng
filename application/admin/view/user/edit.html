@@ -1,0 +1,169 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<!--百度编辑器开始-->
+<script src="__UEDITOR__/ueditor.config.js" type="text/javascript"></script>
+{if !$Request.isMobile}
+    <script src="__UEDITOR__/ueditor.all.min.js" type="text/javascript"></script>
+{else /}
+    <script src="__UEDITOR__/mobile.ueditor.all.min.js" type="text/javascript"></script>
+{/if}
+{if $Think.get.lang eq 'cn' or $Think.get.lang eq 'tw'}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/zh-cn/zh-cn.js"></script>
+{else /}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/en/en.js"></script>
+{/if}
+<!--百度编辑器结束-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_user} {$Think.lang.v_manage}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_user}</span></li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            {eq name="Think.config.app.isdisplay.user" value="1"}
+            <div class="box">
+                <div class="box-body">
+                    <form name="form1" action="{:url('user/index?lang='.input('lang').'&group_id='.input('group_id').'&keyword='.input('keyword'))}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <a class="pull-left btn btn-default mb-2 mr-4" href="{:url('user/index?lang='.input('lang'))}"><i class="fa fa-user"></i> {$Think.lang.v_user} {$Think.lang.v_manage}</a>
+                                <a class="pull-left btn btn-success mb-2 mr-4" href="{:url('user/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_user}</a>
+                                <a class="pull-left btn btn-default mb-2 mr-4" href="{:url('user/index?lang='.input('lang').'&signid=9')}"><i class="fa fa-recycle"></i> {$Think.lang.v_recycle}</a>
+                                <div class="pull-left">
+                                    <select name="group_id" class="form-control">
+                                        {volist name="grouplist" id="groupRs"}
+                                            <option value="{$groupRs.id}" {eq name="Think.get.group_id" value="groupRs.id"}selected="selected"{/eq}>{$groupRs.title}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {/eq}
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_user}</div>
+                <div class="box-body">
+                    <form method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_username} <span class="text-red inline">*</span></div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="username" value="{$rs.username}" placeholder="{$Think.lang.v_username_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_password}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="password" value="" placeholder="{$Think.lang.v_password_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_repassword}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="vpassword" value="" placeholder="{$Think.lang.v_password_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group {eq name="rs.id" value="1"} hidden{/eq}">
+                            <div class="control-label col-md-3">{$Think.lang.v_authgroup}</div>
+                            <div class="col-md-5">
+                                <select name="groupid" class="form-control">
+                                    {foreach name="authGroup" item="k"}
+                                        <option value="{$k.id}" {eq name="authGroupAccess.group_id" value="$k.id" }selected="selected"{/eq}>{$k.title}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_nickname}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="nickname" value="{$rs.nickname}" placeholder="{$Think.lang.v_nickname_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">Email</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="email" value="{$rs.email}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_mobile}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="mobile" value="{$rs.mobile}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label col-md-3">{$Think.lang.v_avatar}</div>
+                            <div class="col-md-5">
+                                <div class="input-group"><input name="avatar" id="morepics1" type="text" class="form-control" value="{empty name="rs.avatar"}/skin/admin/img/avatar.png{else /}{$rs.avatar}{/empty}" /> <span class="input-group-btn"><button type="button" class="btn btn-success" onclick="upImage1();"><i class="fa fa-cloud-upload"></i> {$Think.lang.v_upload} {$Think.lang.v_avatar}</button></span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<!--图片上传开始-->
+<script type="text/plain" id="input_editor1" style="display:none;"></script>
+<script type="text/javascript">
+    var url='{:url('ueditor/index')}';
+    var upload_editor1 = UE.getEditor('input_editor1',{
+        serverUrl :url,
+        UEDITOR_HOME_URL:'__UEDITOR__/',
+    });
+function upImage1(){
+      
+    upload_editor1.ready(function(){
+        upload_editor1.execCommand('serverparam', {
+        'userid': {:session('userid')},
+        });
+
+        upload_editor1.hide();
+        upload_editor1.addListener('beforeInsertImage', function (t,arg){
+            document.getElementById("morepics1").value=arg[0].src;
+        });
+    });
+    var myImage1 = upload_editor1.getDialog("insertimage");
+    myImage1.open();
+}
+</script>
+<!--图片上传结束-->
+</body>
+</html>

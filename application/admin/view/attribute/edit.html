@@ -1,0 +1,224 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_manage}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_attribute}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form1" action="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <a class="btn btn-default mb-2 mr-4" href="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-tag"></i> {$Think.lang.v_attribute} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-success mb-2" href="{:url('attribute/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_attribute}</div>
+                <div class="box-body">
+                    <form name="editform" id="editform" method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$navModuleRs.title} {$Think.lang.v_type} <span class="text-red inline">*</span></div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="title" value="{$rs.title}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_sequence}</div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control checkstock" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <table id="tab1">
+                                    {empty name="sub_attribute"}
+                                        <tr>
+                                            <td>
+                                                <div class="pull-left mr-2">
+                                                    {$Think.lang.v_attribute_name}<br>
+                                                    <input type="text" name="sub_title[]" placeholder="{$Think.lang.v_attribute_name}" value="" class="input">
+                                                </div>
+                                                <div class="pull-left mr-2">
+                                                    {$Think.lang.v_attribute_value}<br>
+                                                    <textarea name="sub_attvalue[]" rows="1" class="input edit_attvalue" data-type="textarea" data-pk="1" data-placeholder="{$Think.lang.v_oneline_onevalue}" data-original-title="{$Think.lang.v_oneline_onevalue}" style="resize:vertical;"></textarea>
+                                                </div>
+                                                <div class="pull-left mr-2">
+                                                    {$Think.lang.v_display_method}<br>
+                                                    <select name="fieldtype[]" class="input">
+                                                        <option value="radio">{$Think.lang.v_method_select}</option>
+                                                        <option value="checkbox">{$Think.lang.v_method_checkbox}</option>
+                                                        <option value="text">{$Think.lang.v_method_text}</option>
+                                                        <option value="textarea">{$Think.lang.v_method_textarea}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="pull-left mr-2">
+                                                    {$Think.lang.v_sequence}<br>
+                                                    <input type="text" name="sub_sequence[]" placeholder="{$Think.lang.v_sequence}" value="0" class="input" maxlength="10">
+                                                </div>
+                                                <div class="pull-left"><br>
+                                                    <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab1','delbutton1');"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                </div>
+                                                <input type="hidden" name="sub_id[]" value="">
+                                            </td>
+                                        </tr>
+                                    {else /}
+                                        {volist name="sub_attribute" id="subRs"}
+                                        <tr>
+                                            <td>
+                                                <div class="pull-left mr-2 mt-1">
+                                                    {eq name="key" value="0"}{$Think.lang.v_attribute_name}<br>{/eq}
+                                                    <input type="text" name="sub_title[]" placeholder="{$Think.lang.v_attribute_name}" value="{$subRs.title}" class="input">
+                                                </div>
+                                                <div class="pull-left mr-2 mt-1">
+                                                    {eq name="key" value="0"}{$Think.lang.v_attribute_value}<br>{/eq}
+                                                    <textarea name="sub_attvalue[]" rows="1" class="input edit_attvalue" data-type="textarea" data-pk="1" data-placeholder="{$Think.lang.v_oneline_onevalue}" data-original-title="{$Think.lang.v_oneline_onevalue}" style="resize:vertical;">{$subRs.attvalue}</textarea>
+                                                </div>
+                                                <div class="pull-left mr-2 mt-1">
+                                                    {eq name="key" value="0"}{$Think.lang.v_display_method}<br>{/eq}
+                                                    <select name="fieldtype[]" class="input">
+                                                        <option value="radio" {eq name="subRs.fieldtype" value="radio"}selected="selected"{/eq}>{$Think.lang.v_method_select}</option>
+                                                        <option value="checkbox" {eq name="subRs.fieldtype" value="checkbox"}selected="selected"{/eq}>{$Think.lang.v_method_checkbox}</option>
+                                                        <option value="text" {eq name="subRs.fieldtype" value="text"}selected="selected"{/eq}>{$Think.lang.v_method_text}</option>
+                                                        <option value="textarea" {eq name="subRs.fieldtype" value="textarea"}selected="selected"{/eq}>{$Think.lang.v_method_textarea}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="pull-left mr-2 mt-1">
+                                                    {eq name="key" value="0"}{$Think.lang.v_sequence}<br>{/eq}
+                                                    <input type="text" name="sub_sequence[]" placeholder="{$Think.lang.v_sequence}" value="{empty name="subRs.sequence"}0{else /}{$subRs.sequence}{/empty}" class="input" maxlength="10">
+                                                </div>
+                                                <div class="pull-left mt-1">
+                                                    {eq name="key" value="0"}<br>{/eq}
+                                                    {eq name="i" value="1"}
+                                                        <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab1','delbutton1');" /><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                    {else /}
+                                                        <label class="btn btn-danger"><input type="checkbox" class="hidden" id="delbutton1" onClick="javascript:DelRow('tab1','delbutton1');" /><i class="fa fa-trash"></i> {$Think.lang.v_delete_this}</label>
+                                                    {/eq}
+                                                </div>
+                                                <input type="hidden" name="sub_id[]" value="{$subRs.id}">
+                                            </td>
+                                        </tr>
+                                        {/volist}
+                                    {/empty}
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<script src="__ADMIN__/js/jquery.mockjax.js" type="text/javascript"></script>
+<script src="__ADMIN__/bootstrap-editable/js/bootstrap-editable.js" type="text/javascript"></script>
+<script src="__ADMIN__/js/form-editable.min.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $("body").delegate(".edit_attvalue","mouseenter mouseleave", function(){
+        $('.edit_attvalue').editable({
+            title: '{$Think.lang.v_oneline_onevalue}',
+            emptytext: '',
+            rows: 5
+        });
+    });
+});
+</script>
+<!--增减开始-->
+<script type="text/javascript">
+function AddRow(tab1,delbutton1){
+    //添加一行
+    var i =document.getElementById(tab1).rows.length;
+    var newTr = document.getElementById(tab1).insertRow();
+    var moreNum={$more_num}+i;
+    //添加列
+    var newTd0 = newTr.insertCell();
+    newTd0.innerHTML =  '<div class="pull-left mr-2 mt-1"><input type="text" name="sub_title[]" placeholder="{$Think.lang.v_attribute_name}" value="" class="form-control"></div>\n\
+                        <div class="pull-left mr-2 mt-1">\n\
+                            <textarea name="sub_attvalue[]" rows="1" class="form-control edit_attvalue" data-type="textarea" data-pk="1" data-placeholder="{$Think.lang.v_oneline_onevalue}" data-original-title="{$Think.lang.v_oneline_onevalue}" style="resize:vertical;"></textarea>\n\
+                        </div>\n\
+                        <div class="pull-left mr-2 mt-1"><select name="fieldtype[]" class="form-control">\n\
+                        <option value="radio">{$Think.lang.v_method_select}</option>\n\
+                        <option value="checkbox">{$Think.lang.v_method_checkbox}</option>\n\
+                        <option value="text">{$Think.lang.v_method_text}</option>\n\
+                        <option value="textarea">{$Think.lang.v_method_textarea}</option>\n\
+                        </select></div>\n\
+                        <div class="pull-left mr-2 mt-1"><input type="text" name="sub_sequence[]" placeholder="{$Think.lang.v_sequence}" value="0" class="form-control" maxlength="10"></div>\n\
+                        <div class="pull-left mt-1"><label class="btn btn-danger"><input type="checkbox" class="hidden" id="delbutton1" onClick="javascript:DelRow(\'tab1\',\'delbutton1\');" /><i class="fa fa-trash"></i> {$Think.lang.v_delete_this}</label></div><input type="hidden" name="sub_id[]" value="">';
+}
+function DelRow(tab1,delbutton1){
+    //删除一行
+    var shu=0;
+    var delTr=document.all(delbutton1);
+    for(var i=0;i<delTr.length;i++){
+        if (delTr[i].checked==true){
+            shu++;
+        }
+    }
+    if(shu==delTr.length){
+        return;
+    }else  if(shu==0){
+        document.getElementById(tab1).deleteRow(1);
+    }else if(shu==1){
+        for(var i=0;i<delTr.length;i++){
+            if(delTr[i].checked==true){
+                document.getElementById(tab1).deleteRow(i+1);
+            }
+        }
+    }else if(shu>1){
+        for(var a=0;a<shu;a++){
+            for(var i=0;i<delTr.length;i++){
+                if(delTr[i].checked==true){
+                    document.getElementById(tab1).deleteRow(i+1);
+                    break;
+                }
+            }
+        }
+    }
+}
+</script>
+<!--增减结束-->
+</body>
+</html>

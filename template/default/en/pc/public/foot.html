@@ -1,0 +1,105 @@
+<!--底部 开始-->
+<footer id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2 col-sm-4 col-4">
+				<h4>{$Think.lang.v_product}</h4>
+				<ul>
+                    {tag:list name="prosortRs" table="sort" where="lang='$lang' and tabledir='Product' and parentid=0" limit="5" order="sequence desc"}
+						<li><a href="{:url($lang_path.$prosortRs['urlroute'].'-'.$prosortRs['routesign'].$prosortRs['id'].'-1')}"><i class="fa fa-caret-right"></i> {$prosortRs.title}</a></li>
+					{/tag:list}
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4 col-4">
+				<h4>{$Think.lang.v_news}</h4>
+				<ul>
+                    {tag:list name="newssortRs" table="sort" where="lang='$lang' and tabledir='News' and parentid=0" limit="5" order="sequence desc"}
+						<li><a href="{:url($lang_path.$newssortRs['urlroute'].'-'.$newssortRs['routesign'].$newssortRs['id'].'-1')}"><i class="fa fa-caret-right"></i> {$newssortRs.title}</a></li>
+					{/tag:list}
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4 col-4">
+				<h4>{$Think.lang.v_project}</h4>
+				<ul>
+                    {tag:list name="projectsortRs" table="sort" where="lang='$lang' and tabledir='Project' and parentid=0" limit="5" order="sequence desc"}
+						<li><a href="{:url($lang_path.$projectsortRs['urlroute'].'-'.$projectsortRs['routesign'].$projectsortRs['id'].'-1')}"><i class="fa fa-caret-right"></i> {$projectsortRs.title}</a></li>
+					{/tag:list}
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4 col-12 text-center">
+				<img src="{$erweima}" class="img-fluid" /><br />{$Think.lang.v_qrcode}
+			</div>
+			<div class="col-md-4 col-sm-8 col-12">
+				<h4>{$siteRs.company}</h4>
+				<ul>
+					<li><p><i class="fa fa-map-marker"></i> <strong>{$Think.lang.v_address}：</strong> {$address}</p></li>
+					<li><p><i class="fa fa-phone"></i> <strong>{$Think.lang.v_telephone}：</strong> <a href="tel:{$telephone}" rel="nofollow" class="mr-1">{$telephone}</a><i class="fa fa-mobile-alt ml-2 mr-1"></i><strong>{$Think.lang.v_mobile}：</strong> <a href="tel:{$mob}" rel="nofollow" class="mr-1">{$mob}</a></p></li>
+					<li><p><i class="fa fa-envelope"></i> <strong>{$Think.lang.v_email}：</strong> <a href="mailto:{$email}">{$email}</a></p></li>
+					{eq name="lang" value="cn"}
+					<li>
+						<i class="fab fa-qq"></i> <strong>Q Q：</strong>
+						{tag:list name="qqRs" table="chat" where="lang='$lang' and chat_type='qq'" limit="2" order="sequence desc"}
+							<a class="mr-3" rel="nofollow" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$qqRs.account}&site=qq&menu=yes">{$qqRs.title}</a>
+						{/tag:list}
+					</li>
+					{/eq}
+				</ul>
+			</div>
+			{eq name="Request.controller" value="Index"}
+            <div class="col-md-12">
+                {$Think.lang.v_friendlink}：
+                {tag:list name="friendRs" table="ad" where="lang='$lang' and att_type='link'" limit="35" order="sequence desc"}
+                    <a href="{$friendRs.linkurl}" class="mr-3" target="_blank">{$friendRs.title}</a>
+                {/tag:list}
+            </div>
+            {/eq}
+		</div>
+	</div>
+	<div class="footer-copyright">
+		<div class="container">
+			<div class="row py-2">
+				<div class="col-md-9 col-sm-12">{$copyright|raw}</div>
+				<div class="col-md-3 col-sm-12 text-center"><a href="http://www.miitbeian.gov.cn/" rel="nofollow" target="_blank">{$siteRs.icpnumber}</a></div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!--底部  结束-->
+<script src="/skin/admin/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/bootstrap/js/popper.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/js/global.js"></script>
+<!--客服 开始-->
+<!--<div id="top" class="{eq name="lang" value="cn"}d-none d-md-block{else /}d-sm-none{/eq}">-->
+    <!--<div id="chat-id" class="chat-menu">-->
+        <!--<div class="chat-float"></div>-->
+        <!--<div class="kfbtn btn-qq">-->
+            <!--<div class="qq">-->
+                <!--{tag:list name="chatRs" table="chat" where="lang='$lang' and chat_type='qq'" limit="10" order="sequence desc"}-->
+                    <!--<a rel="nofollow" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$chatRs.account}&site=qq&menu=yes"><img src="{$chatRs.thumb}" alt="{$chatRs.title}" onerror="this.src='/skin/admin/img/nopic.png'" /><br />{$chatRs.title}</a>-->
+                <!--{/tag:list}-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="kfbtn btn-wx"><img class="pic" src="{$erweima}"></div>-->
+        <!--<div class="kfbtn btn-phone">-->
+            <!--<div class="phone">{$telephone}</div>-->
+        <!--</div>-->
+        <!--<div class="kfbtn btn-top" style="display: none;"></div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--客服 结束-->
+<script type="text/javascript" src="/skin/admin/jquery-weui/js/jquery-weui{neq name="lang" value="cn"}.en{/neq}.min.js"></script>
+<script type="text/javascript">
+/*搜索*/
+function checksearch($action){
+    if(document.search_form.keyword.value.length > 1){
+    	document.search_form.action = $action + "?keyword="+document.search_form.keyword.value;
+        return true;
+    }else{
+        $.toast("<i class='fa fa-info-circle fa-2x text-danger'></i><br>{$Think.lang.v_keyword_tips}",1000);
+        document.search_form.keyword.focus();
+        return false;
+	}
+}
+</script>
+{notempty name="siteRs.htmlcode"}{$siteRs.htmlcode|raw}{/notempty}

@@ -1,0 +1,667 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<link href="__ADMIN__/css/sku.css" rel="stylesheet" />
+<link href="__ADMIN__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<!--百度编辑器开始-->
+<script src="__UEDITOR__/ueditor.config.js" type="text/javascript"></script>
+{if !$Request.isMobile}
+    <script src="__UEDITOR__/ueditor.all.min.js" type="text/javascript"></script>
+{else /}
+    <script src="__UEDITOR__/mobile.ueditor.all.min.js" type="text/javascript"></script>
+{/if}
+{if $Think.get.lang eq 'cn' or $Think.get.lang eq 'tw'}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/zh-cn/zh-cn.js"></script>
+{else /}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/en/en.js"></script>
+{/if}
+<!--百度编辑器结束-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li>{$mRs.title} {$Think.lang.v_manage}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$mRs.title}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <form name="form1" action="{:url('project/index?tabledir='.input('tabledir').'&lang='.input('lang').'&signid=1')}" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8 mb-2">
+                            <div class="row">
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('project/index?tabledir='.input('tabledir').'&lang='.input('lang').'&signid=1')}"><i class="fa fa-eye"></i> {$Think.lang.v_show}</a>
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('project/index?tabledir='.input('tabledir').'&lang='.input('lang').'&signid=2')}"><i class="fa fa-eye-slash"></i> {$Think.lang.v_no_sale}</a>
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('project/index?tabledir='.input('tabledir').'&lang='.input('lang').'&signid=9')}"><i class="fa fa-recycle"></i> {$Think.lang.v_recycle}</a>
+                                <a class="btn btn-success mb-2" href="{:url('project/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$mRs.title}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="nav-tabs-custom">
+                {php}$isdisplay_array=explode(',',$navModuleRs['isdisplay']);{/php}
+                <ul class="nav nav-tabs pull-right">
+                    {in name="'spec'" value="$isdisplay_array"}<li><a href="#tab_spec" data-toggle="tab">{$Think.lang.v_spec}</a></li>{/in}
+                    {in name="'attribute'" value="$isdisplay_array"}<li><a href="#tab_attribute" data-toggle="tab">{$Think.lang.v_attribute}</a></li>{/in}
+                    <li><a href="#tab_extend" data-toggle="tab">{$Think.lang.v_extend}</a></li>
+                    <li class="active"><a href="#tab_general" data-toggle="tab">{$Think.lang.v_basic}</a></li>
+                    <li class="pull-left header"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$mRs.title}</li>
+                </ul>
+                <form name="editform" id="editform" method="post" action="" class="form-horizontal box-body">
+                    <input type="hidden" name="id" value="{$rs.id}">
+                    <input type="hidden" name="lang" value="{:input('lang')}">
+                    <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_general">
+                            <div class="form-group {notin name="'sort'" value="$isdisplay_array"}hidden{/notin}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_sort}</div>
+                                <div class="col-md-5">
+                                    <select name="sortid" class="form-control">
+                                        {in name="'sort'" value="$isdisplay_array"}<option value="" {empty name="rs.id"}selected="selected"{/empty}>{$Think.lang.v_sort_check}</option>{/in}
+                                        {foreach name="Sort" item="k"}
+                                            <option value="{$k.id}" {eq name="rs.sortid" value="$k.id" }selected="selected"{/eq}>{$k.html} {$k.title}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label text-red">{$Think.lang.v_title} *</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="title" id="title" onblur="strtopy();" value="{$rs.title}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_seo} {$Think.lang.v_title}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="seotitle" value="{$rs.seotitle}" placeholder="{$Think.lang.v_seo_use_title}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_keyword}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="keyword" value="{$rs.keyword}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_description}</div>
+                                <div class="col-md-5">
+                                    <textarea name="description" rows="4" class="form-control">{$rs.description}</textarea>
+                                </div>
+                            </div>
+                            {if in_array('thumb',$isdisplay_array)}
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_img}</div>
+                                    <div class="col-md-5">
+                                        <div class="input-group"><input name="thumb" id="morepics1" type="text" class="form-control" value="{$rs.thumb}" /> <span class="input-group-btn"><button type="button" class="btn btn-success" onclick="upImage('morepics1');"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_img}</button></span></div>
+                                    </div>
+                                </div>
+                            {/if}<!--更多图片-->
+                            {if in_array('morepics',$isdisplay_array)}
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_more_img}</div>
+                                    <div class="col-md-5">
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" id="tab1">
+                                            {empty name="rs.morepics"}
+                                                <tr>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text" name="morepics[]" id="morepics2" value="{$rs.morepics}" class="form-control">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onClick="upImage('morepics2');" class="btn btn-success"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_img}</button>
+                                                                <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab1','delbutton1','upImage','morepics','{$morepicsNum}','{$Think.lang.v_upload_img}');"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>                        
+                                            {else /}
+                                                {volist name="morepics" id="img"}
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text" name="morepics[]" id="morepics{$i}" value="{$img}" class="form-control">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" onClick="upImage('morepics{$i}');" class="btn btn-success"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_img}</button>
+                                                                    {eq name="i" value="1"}
+                                                                        <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab1','delbutton1','upImage','morepics','{$morepicsNum}','{$Think.lang.v_upload_img}');"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                                    {else /}
+                                                                        <label class="btn btn-danger"><input type="checkbox" class="hidden" id="delbutton1" onClick="javascript:DelRow('tab1','delbutton1');" /><i class="fa fa-trash"></i> {$Think.lang.v_delete_this}</label>
+                                                                    {/eq}
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>                        
+                                                {/volist}
+                                            {/empty}
+                                        </table>
+                                    </div>
+                                </div>
+                            {/if}
+                            {if in_array('fileurl',$isdisplay_array)}
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_upload_file}</div>
+                                    <div class="col-md-5">
+                                        <div class="input-group"><input name="fileurl" id="morefileurl1" type="text" class="form-control" value="{$rs.fileurl}" /> <span class="input-group-btn"><button type="button" class="btn btn-success" onclick="upFiles('morefileurl1');"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_file}</button></span></div>
+                                    </div>
+                                </div>
+                            {/if}<!--更多附件-->
+                            {if in_array('morefiles',$isdisplay_array)}
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_more_file}</div>
+                                    <div class="col-md-5">
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" id="tab2">
+                                            {empty name="rs.morefileurl"}
+                                                <tr>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text" name="morefileurl[]" id="morefileurl2" value="{$rs.morefileurl}" class="form-control">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onClick="upFiles('morefileurl2');" class="btn btn-success"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_file}</button>
+                                                                <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab2','delbutton2','upFiles','morefileurl','{$morefilesNum}','{$Think.lang.v_upload_file}');"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>                        
+                                            {else /}
+                                                {volist name="morefileurl" id="file"}
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text" name="morefileurl[]" id="morefileurl{$i}" value="{$file}" class="form-control">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" onClick="upFiles('morefileurl{$i}');" class="btn btn-success"><small><i class="fa fa-cloud-upload"></i></small> {$Think.lang.v_upload_file}</button>
+                                                                    {eq name="i" value="1"}
+                                                                        <button type="button" class="btn btn-info" onClick="javascript:AddRow('tab2','delbutton2','upFiles','morefileurl','{$morefilesNum}','{$Think.lang.v_upload_file}');"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add_one}</button>
+                                                                    {else /}
+                                                                        <label class="btn btn-danger"><input type="checkbox" class="hidden" id="delbutton2" onClick="javascript:DelRow('tab2','delbutton2');" /><i class="fa fa-trash"></i> {$Think.lang.v_delete_this}</label>
+                                                                    {/eq}
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>                        
+                                                {/volist}
+                                            {/empty}
+                                        </table>
+                                    </div>
+                                </div>
+                            {/if}
+                            {if in_array('morecontents',$isdisplay_array)}
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_content_a}</div>
+                                    <div class="col-md-9">
+                                        <button type="button" name="ShowUeditor1" id="ShowUeditor1" onclick="ShowUeditor1a();" class="btn btn-success btn-sm" />{$Think.lang.v_editor_showornot}</button>
+                                        <textarea name="content1" id="content1a" style="width:100%; height:350px; display:none;">{$rs.content1}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_content_b}</div>
+                                    <div class="col-md-9">
+                                        <button type="button" name="ShowUeditor2" id="ShowUeditor2" onclick="ShowUeditor2a();" class="btn btn-success btn-sm" />{$Think.lang.v_editor_showornot}</button>
+                                        <textarea name="content2" id="content2a" style="width:100%; height:350px; display:none;">{$rs.content2}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_content_c}</div>
+                                    <div class="col-md-9">
+                                        <button type="button" name="ShowUeditor3" id="ShowUeditor3" onclick="ShowUeditor3a();" class="btn btn-success btn-sm" />{$Think.lang.v_editor_showornot}</button>
+                                        <textarea name="content3" id="content3a" style="width:100%; height:350px; display:none;">{$rs.content3}</textarea>
+                                    </div>
+                                </div>
+                            {else /}
+                                <div class="form-group {if !in_array('onecontent',$isdisplay_array)}hidden{/if}">
+                                    <div class="col-md-3 control-label">{$Think.lang.v_content_a}</div>
+                                    <div class="col-md-9">
+                                        <textarea name="content1" id="content1a" style="width:100%; height:350px;">{$rs.content1}</textarea>
+                                    </div>
+                                </div>
+                            {/if}
+                        </div>
+                        <div class="tab-pane" id="tab_extend">
+                            <div class="form-group {if in_array('area',$isdisplay_array)}{else /}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_area}</div>
+                                <div class="col-md-9" id="area">
+                                    {for start="1" end="5"}
+                                        <select name="areaid" class="area{$i} input">
+                                            {notempty name="rs.id"}<!--编辑状态-->
+                                                {switch name="i"}
+                                                    {case value="1"}<option value="{$a}" selected>{/case}
+                                                    {case value="2"}<option value="{$b}" selected>{/case}
+                                                    {case value="3"}<option value="{$c}" selected>{/case}
+                                                    {case value="4"}<option value="{$d}" selected>{/case}
+                                                {/switch}
+                                                </option>
+                                            {/notempty}
+                                        </select>
+                                    {/for}
+                                </div>
+                            </div>
+                            {if in_array('price',$isdisplay_array)}
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_sale_price}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="price" value="{empty name="rs.price"}0.00{else /}{$rs.price}{/empty}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_market_price}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="marketprice" value="{empty name="rs.marketprice"}0.00{else /}{$rs.marketprice}{/empty}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_stock}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="stock" value="{empty name="rs.stock"}{$stock}{else /}{$rs.stock}{/empty}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_stock_unit}</div>
+                                <div class="col-md-5">
+                                    <select name="stockunit" class="form-control">
+                                        {foreach $stockunit_arr as $unit}
+                                            <option value="{$unit}" {eq name="$unit" value="$rs.stockunit"}selected="selected"{/eq}>{$unit}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            {/if}
+                            <div class="form-group">
+                                <div class="col-md-3 control-label text-red">{$Think.lang.v_urlroute} *</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="urlroute" id="urlroute" placeholder="{$Think.lang.v_urlroute_tips}" value="{$rs.urlroute}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_sequence}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="sequence" value="{eq name="rs.sequence" value=""}0{else /}{$rs.sequence}{/eq}" />
+                                </div>
+                            </div>
+                            {if in_array('hits',$isdisplay_array)}
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_hits}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="hits" value="{empty name="rs.hits"}{$hits}{else /}{$rs.hits}{/empty}" />
+                                </div>
+                            </div>
+                            {/if}
+                            <div class="form-group {if in_array('client',$isdisplay_array)}{else /}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_client}</div>
+                                <div class="col-md-5 checkbox">
+                                    {php}$client_array=explode(',',$rs['client']);{/php}
+                                    <label class="mr-2">
+                                        <input type="checkbox" name="client[]" value="pc" {if in_array('pc',$client_array) or $rs.client eq ''}checked="checked"{/if}>{$Think.lang.v_client_pc}
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="client[]" value="wap" {if in_array('wap',$client_array) or $rs.client eq ''}checked="checked"{/if}>{$Think.lang.v_client_mobile}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group {if in_array('tags',$isdisplay_array)}{else /}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_label}</div>
+                                <div class="col-md-5 checkbox">
+                                    {foreach $module_tags as $tagRs}
+                                        <label class="mr-2">
+                                            <input name="tags[]" type="checkbox" value="{$tagRs}" {if in_array($tagRs,$tags)==true}checked="checked"{/if} /> {$tagRs}
+                                        </label>
+                                    {/foreach}
+                                </div>
+                            </div>
+                            <div class="form-group {if in_array('addtime',$isdisplay_array)}{else /}hidden{/if}">
+                                <div class="col-md-3 control-label">{$Think.lang.v_adddate}</div>
+                                <div class="col-md-5">
+                                    <div class="input-group date form_datetime">
+                                        <input type="text" class="form-control" name="addtime" readonly="readonly" value="{empty name="rs.addtime"}{php}echo date('Y-m-d H:i:s',time());{/php}{else /}{$rs.addtime|date='Y-m-d H:i:s'}{/empty}" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default date-set"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {if in_array('linkurl',$isdisplay_array)}
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_jump_url}</div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" name="linkurl" value="{$rs.linkurl}" />
+                                </div>
+                            </div>
+                            {/if}
+                            {if in_array('view_template',$isdisplay_array)}
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_index_viewtemplate}</div>
+                                <div class="col-md-5">
+                                    <select name="viewtemp" class="form-control">
+                                        {foreach $viewtemp as $viewtempRs}
+                                            {php}$viewtempPrefix = strstr($viewtempRs,'.html',true);{/php}
+                                            {if empty($rs['id']) and $viewtempPrefix == $defaulttemp}
+                                                <option value="{$defaulttemp}" selected="selected">{$viewtempRs}</option>
+                                            {else /}
+                                                <option value="{$viewtempPrefix}" {eq name="rs.viewtemp" value="$viewtempPrefix" }selected="selected"{/eq}>{$viewtempRs}</option>
+                                            {/if}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            {/if}
+                        </div>
+                        <div class="tab-pane" id="tab_attribute">
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$mRs.title} {$Think.lang.v_attribute}</div>
+                                <div class="col-md-2">
+                                    <select name="attributeid" id="attributeid" class="form-control">
+                                        <option value="">{$Think.lang.v_please_select} {$Think.lang.v_attribute}</option>
+                                        {foreach name="attlist" item="attRs"}
+                                            <option value="{$attRs.id}" {eq name="rs.attributeid" value="$attRs.id"}selected="selected"{/eq}>{$attRs.title}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="get_attribute" class="clearfix"></div>
+                        </div>
+                        <div class="tab-pane" id="tab_spec">
+                            <div class="form-group">
+                                <div class="col-md-3 control-label">{$Think.lang.v_spec} {$Think.lang.v_attribute}</div>
+                                <div class="col-md-2">
+                                    <select name="attid" id="attid" class="form-control">
+                                        <option value="">{$Think.lang.v_please_select} {$Think.lang.v_spec} {$Think.lang.v_attribute}</option>
+                                        {foreach name="specatt" item="attRs"}
+                                            <option value="{$attRs.id}" {eq name="rs.attid" value="$attRs.id"}selected="selected"{/eq}>{$attRs.title}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="get_sku" class="clearfix"></div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{if empty($rs['id'])}
+<!--汉字转拼音 开始-->
+<!--前提要引入JQ-->
+<script type="text/javascript">
+function strtopy(){
+    var title = $("#title").val();
+    $.post("{:url('base/pinyin?lang='.input('lang'))}",{title:title},function(data){
+        document.editform.urlroute.value=data;
+    });
+}
+</script>
+<!--汉字转拼音 结束-->
+{/if}
+<!--日期选择 开始-->
+<script src="__ADMIN__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+{eq name="Think.get.lang" value="cn"}
+<script type="text/javascript" src="__ADMIN__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+{/eq}
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        autoclose: true,
+        todayBtn: true,
+        {eq name="Think.get.lang" value="cn"}
+        language: 'zh-CN',
+        {/eq}
+        pickerPosition: "bottom-left"
+    });
+</script>
+<!--日期选择 结束-->
+<!--文件上传开始-->
+<script type="text/plain" id="input_editor" style="display:none;"></script>
+<script type="text/javascript">
+    //弹出文件上传的对话框
+    var url='{:url('ueditor/index')}';
+    //实例化编辑器
+    var upload_editor = UE.getEditor('input_editor',{
+        serverUrl :url,
+        UEDITOR_HOME_URL:'__UEDITOR__/',
+    });
+    function upFiles(morefileurl){
+        upload_editor.ready(function(){
+            upload_editor.execCommand('serverparam', {
+                'userid': {:session('userid')},//图片子文件夹，以用户ID命名
+            });
+            var filekey = 1;
+            upload_editor.hide();//隐藏编辑器
+            //文件上传监听
+            // 需要在ueditor.all.min.js文件中找到d.execCommand("insertHtml",l)之后插入d.fireEvent('afterUpfile',b)
+            upload_editor.addListener('afterUpfile', function (t, arg){
+                if(filekey == 1){
+                    document.getElementById(morefileurl).value=arg[0].url;
+                }
+                filekey ++;
+            });
+        });
+        //弹出文件上传的对话框
+        var myFiles = upload_editor.getDialog("attachment");
+        myFiles.open();
+    } 
+</script>
+<!--文件上传结束-->
+<!--图片上传开始-->
+<script type="text/plain" id="input_editor" style="display:none;"></script>
+<script type="text/javascript">
+    var url='{:url('ueditor/index')}';
+    var upload_editor = UE.getEditor('input_editor',{
+        serverUrl :url,
+        UEDITOR_HOME_URL:'__UEDITOR__/',
+    });
+    function upImage(morepics){
+        upload_editor.ready(function(){
+            upload_editor.execCommand('serverparam', {
+                'userid': {:session('userid')},
+            });
+            var pickey = 1;
+            upload_editor.hide();
+            upload_editor.addListener('beforeInsertImage', function (t,arg){
+                if(pickey == 1){
+                    if(morepics.indexOf('specimg') != -1){
+                        document.getElementById(morepics).innerHTML='<img src="'+arg[0].src+'" class="img-rounded" style="max-height:35px; max-width:100px;"><input type="hidden" value="'+arg[0].src+'" name="sku_specimg[]"><input type="button" class="btn btn-success" onClick="upImage(\'' + morepics + '\');" value="{$Think.lang.v_upload_img}" />';
+                    }else{
+                        document.getElementById(morepics).value=arg[0].src;
+                    }
+                }
+                pickey ++;
+            });
+        });
+        var myImage = upload_editor.getDialog("insertimage");
+        myImage.open();
+    }
+</script>
+<!--图片上传结束-->
+<!--多图多附件增减开始-->
+<script type="text/javascript">
+function AddRow(tab1,delbutton1,upmethod,inputMethod,moreNum,uptext){
+    //添加一行
+    var i =document.getElementById(tab1).rows.length;
+    var newTr = document.getElementById(tab1).insertRow();
+    var moreNum=moreNum+i;
+    //添加列
+    var newTd0 = newTr.insertCell();
+    newTd0.innerHTML = '<div class="input-group"><input type="text" name="'+inputMethod+'[]" id="'+inputMethod+''+moreNum+'" value="" class="form-control" /><span class="input-group-btn"><button type="button" onClick="'+upmethod+'(\''+inputMethod+moreNum + '\');" class="btn btn-success"><small><i class="fa fa-cloud-upload"></i></small> '+uptext+'</button><label class="btn btn-danger"><input type="checkbox" class="hidden" id="'+delbutton1+'" onclick="javascript:DelRow(\''+tab1+'\',\''+delbutton1+'\');"/ /><i class="fa fa-trash"></i> {$Think.lang.v_delete_this}</label></span></div>';
+}
+function DelRow(tab1,delbutton1){
+    //删除一行
+    var shu=0;
+    var delTr=document.all(delbutton1);
+    for(var i=0;i<delTr.length;i++){
+        if (delTr[i].checked==true){
+            shu++;
+        }
+    }
+    if(shu==delTr.length){
+        return;
+    }else  if(shu==0){
+        document.getElementById(tab1).deleteRow(1);
+    }else if(shu==1){
+        for(var i=0;i<delTr.length;i++){
+            if(delTr[i].checked==true){
+                document.getElementById(tab1).deleteRow(i+1);
+            }
+        }
+    }else if(shu>1){
+        for(var a=0;a<shu;a++){
+            for(var i=0;i<delTr.length;i++){
+                if(delTr[i].checked==true){
+                    document.getElementById(tab1).deleteRow(i+1);
+                    break;
+                }
+            }
+        }
+    }
+}
+</script>
+<!--多图多附件增减结束-->
+<!--富文本编辑器开始-->
+{if in_array('morecontents',$isdisplay_array)}
+<script type="text/javascript">
+{php}for($i=1;$i<4;$i++){{/php}
+function ShowUeditor{$i}a(){
+    var url='{:url('ueditor/index')}';
+    var ue = UE.getEditor('content{$i}a',{
+        serverUrl :url,
+        {if $Request.isMobile}
+        toolbars:[
+            ['source','undo','redo','justifyleft','justifycenter','justifyright','bold','italic','underline','strikethrough','link','unlink','insertcode','fontfamily','fontsize','forecolor','backcolor','simpleupload','insertimage','attachment','spechars','map','insertvideo','music','scrawl']
+        ],
+        'enterTag': 'br',//把换行P改为br
+        {/if}
+    });
+    ue.ready(function(){
+        ue.execCommand('serverparam', {
+        'userid': {:session('userid')},
+        });
+    });
+    if(content{$i}a.style.display=="block"){
+        content{$i}a.style.display='none';
+    }else{
+        content{$i}a.style.display='block';
+    }
+}
+{php}}{/php}
+</script>
+{else /}
+<script type="text/javascript">
+    var url='{:url('ueditor/index')}';
+    var ue = UE.getEditor('content1a',{
+        serverUrl :url,
+    });
+    ue.ready(function(){
+        ue.execCommand('serverparam', {
+        'userid': {:session('userid')},
+        });
+    });
+</script>
+{/if}
+<!--富文本编辑器结束-->
+<!--地区开始-->
+<script src="__ADMIN__/js/jquery.cxselect.min.js"></script>
+<script type="text/javascript">
+$('#area').cxSelect({
+  url: {$areaArr|raw},
+  selects: [{for start="1" end="5"}'area{$i}'{neq name="i" value="4"},{/neq}{/for}],
+  required: true,
+  jsonName: 'title', 
+  jsonValue: 'id', 
+  jsonSub: '0', 
+  nodata: 'none'
+});
+</script>
+<!--地区结束-->
+<!--属性 开始-->
+<script type="text/javascript">
+{notempty name="rs.attributeid"}
+$(function(){
+    var att_url = "{:url('attribute/getattr?lang='.input('lang'))}"+"&attributeid="+{$rs.attributeid}+"&id={$rs['id']}"+"&tabledir={:input('tabledir')}";
+    $.ajax({
+        url: att_url,
+        type: "get",
+        dataType : "html",//数据格式 
+        async: false,
+        success: function(data){
+            $("#get_attribute").html(data);
+        }
+    });
+});
+{/notempty}
+
+$("#attributeid").change(function(){
+    var att_url = "{:url('attribute/getattr?lang='.input('lang'))}"+"&attributeid="+$(this).val()+"&id={$rs['id']}"+"&tabledir={:input('tabledir')}";
+    $('#get_attribute').empty();
+    $.ajax({
+        url: att_url,
+        type: "get",
+        dataType : "html",//数据格式 
+        async: false,
+        success: function(data){
+            $("#get_attribute").html(data);
+        }
+    });
+});
+</script>
+<!--属性 结束-->
+<!--规格开始-->
+<script type="text/javascript">
+{notempty name="rs.attid"}
+$(function(){
+    var sku_url = "{:url('sku/getsku?lang='.input('lang'))}"+"&attid="+{$rs.attid}+"&id={$rs['id']}"+"&tabledir={:input('tabledir')}";
+    $.ajax({
+        url: sku_url,
+        type: "get",
+        dataType : "html",//数据格式 
+        async: false,
+        success: function(data){
+            $("#get_sku").html(data);
+        }
+    });
+});
+{/notempty}
+
+$("#attid").change(function(){
+    var sku_url = "{:url('sku/getsku?lang='.input('lang'))}"+"&attid="+$(this).val()+"&id={$rs['id']}"+"&tabledir={:input('tabledir')}";
+    $.ajax({
+        url: sku_url,
+        type: "get",
+        dataType : "html",//数据格式 
+        async: false,
+        success: function(data){
+            $("#get_sku").html(data);
+        }
+    });
+});
+</script>
+<!--规格 结束-->
+</body>
+</html>

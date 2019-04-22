@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{$siteRs.title}</title>
+<meta name="keywords" content="{$siteRs.keyword}" />
+<meta name="description" content="{$siteRs.description}" />
+<meta name="author" content="www. ">
+{include file="public/css" /}
+<link rel="stylesheet" href="__PUBLIC__/owl.carousel/assets/owl.carousel.min.css">
+</head>
+<body>
+{include file="public/head" /}
+<!--banner 开始-->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        {tag:list name="adRs" table="ad" where="lang='$lang' and att_type='banner' and position='Index'" limit="5" order="sequence desc"}
+            <li data-target="#myCarousel" data-slide-to="{$key}" {eq name="key" value="0"}class="active"{/eq}></li>
+        {/tag:list}
+    </ol>
+    <div class="carousel-inner">
+        {tag:list name="adRs" table="ad" where="lang='$lang' and att_type='banner' and position='Index'" limit="5" order="sequence desc"}
+            <div class="carousel-item pt-5 {eq name="key" value="0"}active{/eq}" style="background:url({$adRs.thumb}) center no-repeat;">
+                <div class="col-md-12 mt-5 pt-5 text-center">
+                    <span class="h1 text-white">{$adRs.title|raw}</span><br><br>
+                    <span class="h5 text-white">{$adRs.description|raw}</span>
+                </div>
+                <div class="col-md-12 mt-5 text-center"><a href="{$adRs.linkurl}" class="btn btn-secondary">&raquo; {$Think.lang.v_view_detail}</a></div>
+            </div>
+        {/tag:list}
+    </div>
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!--banner 结束-->
+<!--关于我们 开始-->
+<div class="container mt-5">
+    <h6 class="text-center font-weight-bold">{$Think.lang.v_about}</h6>
+    <div class="row">
+        <div class="col-md-12 mb-3"><div class="divider"><i class="fa fa-chevron-down"></i></div></div>
+        <div class="col-md-12">{$aboutus|raw}</div>
+    </div>
+</div>
+<!--关于我们 结束-->
+<!--产品 开始-->
+<div class="container mt-5">
+    <h6 class="text-center font-weight-bold">{$Think.lang.v_product}</h6>
+    <div class="row">
+        <div class="col-md-12"><div class="divider"><i class="fa fa-chevron-down"></i></div></div>
+    </div>
+</div>
+<div class="container">
+    <a class="h6" href="/{$lang}/product.html">&raquo; {$Think.lang.v_more}</a>
+    <div class="owl-carousel show-nav-title" data-plugin-options="{'items': 5, 'margin': 15, 'loop': false, 'nav': true, 'dots': false}">
+        {tag:list name="proRs" table="product" where="lang='$lang' and signid=1" limit="10" order="sequence desc,id desc"}
+            <a href="{:url($lang_path.$proRs['urlroute'].'-'.$proRs['routesign'].$proRs['id'])}">
+                <div class="thumb-info thumb-info-centered-info">
+                    <div class="thumb-info-wrapper">
+                        <img alt="{$proRs.title}" class="img-fluid rounded" src="{$proRs.thumb}" onerror="this.src='/skin/admin/img/nopic.png'">
+                        <div class="thumb-info-title">
+                            <div class="thumb-info-inner">{$proRs.description|raw|msubstr=0,52}</div>
+                            <div class="thumb-info-type">{$Think.lang.v_view} &raquo;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">{$proRs.title}</div>
+            </a>
+        {/tag:list}                        
+    </div>
+</div>
+<!--产品 结束-->
+<!--新闻 开始-->
+<div class="container mt-5">
+    <h6 class="mb-2 text-center font-weight-bold">{$Think.lang.v_news}</h6>
+    <div class="row">
+        <div class="col-md-12"><div class="divider"><i class="fa fa-chevron-down"></i></div></div>
+    </div>
+    <div class="row mt-4">
+        {tag:list name="newsRs" table="news" where="lang='$lang' and signid=1" limit="3" order="addtime desc"}
+        <div class="col-md-4">
+            <div class="news">
+                <article>
+                    <div class="date"><span class="day">{$newsRs.addtime|date='d'}</span><span class="month">{$newsRs.addtime|date='Y'}-{$newsRs.addtime|date='m'}</span></div>
+                    <h6><a href="{:url($lang_path.$newsRs['urlroute'].'-'.$newsRs['routesign'].$newsRs['id'])}">{$newsRs.title|msubstr=0,36}</a></h6>
+                    <p class="ml-0">{$newsRs.description|msubstr=0,80}</p>
+                </article>
+            </div>
+        </div>
+        {/tag:list}
+        <div class="col-md-12 mt-4 text-center"><a href="/{$lang}/news-n-1.html" class="btn btn-sm btn-secondary">&raquo; {$Think.lang.v_more} {$Think.lang.v_news}</a></div>
+    </div>
+</div>
+<!--新闻 结束-->
+{include file="public/foot" /}
+<script type="text/javascript" src="__PUBLIC__/owl.carousel/owl.carousel.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/carousel.js"></script>
+</body>
+</html>

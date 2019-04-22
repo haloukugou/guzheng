@@ -1,0 +1,166 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<!--百度编辑器开始-->
+<script src="__UEDITOR__/ueditor.config.js" type="text/javascript"></script>
+{if !$Request.isMobile}
+    <script src="__UEDITOR__/ueditor.all.min.js" type="text/javascript"></script>
+{else /}
+    <script src="__UEDITOR__/mobile.ueditor.all.min.js" type="text/javascript"></script>
+{/if}
+{if $Think.get.lang eq 'cn' or $Think.get.lang eq 'tw'}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/zh-cn/zh-cn.js"></script>
+{else /}
+<script type="text/javascript" charset="utf-8" src="__UEDITOR__/lang/en/en.js"></script>
+{/if}
+<!--百度编辑器结束-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_system_manage}</li>
+                <li>{$Think.lang.v_language} {$Think.lang.v_manage}</li>
+                <li>{empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_language}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <a class="btn btn-default mb-2 mr-2" href="{:url('language/index?lang='.input('lang'))}"><i class="fa fa-language"></i> {$Think.lang.v_language} {$Think.lang.v_manage}</a>
+                            <a class="btn btn-success mb-2" href="{:url('language/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {$Think.lang.v_add} {$Think.lang.v_language}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {empty name="rs.id"}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/empty} {$Think.lang.v_language}</div>
+                <div class="box-body">
+                    <form method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_language_viewname} <span class="text-red inline">*</span></div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="viewtitle" value="{$rs.viewtitle}" placeholder="{$Think.lang.v_language_viewname_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_language_adminname} <span class="text-red inline">*</span></div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="admintitle" value="{$rs.admintitle}" placeholder="{$Think.lang.v_language_viewname_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_language_mulu} <span class="text-red inline">*</span></div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="mulu" value="{$rs.mulu}" {notempty name="rs.id"}readonly="yes"{/notempty} placeholder="{$Think.lang.v_language_mulu_tips}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_sequence} <span class="text-red inline">*</span></div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="sequence" value="{empty name="rs.sequence"}0{else /}{$rs.sequence}{/empty}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_language_ico}</div>
+                            <div class="col-md-4">
+                                <div class="input-group"><input type="text" name="ico" id="morepics1" value="{$rs.ico}" class="form-control" /><span class="input-group-btn"><button type="button" onClick="upImage1();" class="btn btn-success"><i class="fa fa-cloud-upload"></i> {$Think.lang.v_upload_img}</button></span></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_default_ornot}</div>
+                            <div class="col-md-9 radio">
+                                <label class="mr-2">
+                                    <input type="radio" name="isdefault" value="1"{eq name="rs.isdefault" value="1"} checked="checked"{/eq} /> {$Think.lang.v_default_set}
+                                </label>
+                                <label>
+                                    <input type="radio" name="isdefault" value="0"{if $rs.isdefault eq 0 or empty($rs.id)} checked="checked"{/if} />{$Think.lang.v_default_cancel}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_enable_ornot}</div>
+                            <div class="col-md-9 radio">
+                                <label class="mr-2">
+                                    <input type="radio" name="status" value="1"{neq name="rs.status" value="0"} checked="checked"{/neq} /> {$Think.lang.v_enable}
+                                </label>
+                                <label>
+                                    <input type="radio" name="status" value="0"{eq name="rs.status" value="0"} checked="checked"{/eq} />{$Think.lang.v_disable}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 control-label">{$Think.lang.v_pc_mobile}</div>
+                            <div class="col-md-9 radio">
+                                <label class="mr-2">
+                                    <input type="radio" name="settheme" value="1"{eq name="rs.settheme" value="1"} checked="checked"{/eq} /> {$Think.lang.v_yes}
+                                </label>
+                                <label>
+                                    <input type="radio" name="settheme" value="0"{if $rs.settheme eq 0 or empty($rs.id)} checked="checked"{/if} />{$Think.lang.v_no}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<!--图片上传开始-->
+<script type="text/plain" id="input_editor1" style="display:none;"></script>
+<script type="text/javascript">
+//弹出图片上传的对话框
+    var url='{:url('ueditor/index')}';
+    //实例化编辑器
+    var upload_editor1 = UE.getEditor('input_editor1',{
+        serverUrl :url,
+        UEDITOR_HOME_URL:'__UEDITOR__/',
+    });
+function upImage1(){
+      
+    upload_editor1.ready(function(){
+        upload_editor1.execCommand('serverparam', {
+        'userid': {:session('userid')},//图片子文件夹
+        });
+
+        upload_editor1.hide();//隐藏编辑器
+        //监听图片上传
+        upload_editor1.addListener('beforeInsertImage', function (t,arg){
+            document.getElementById("morepics1").value=arg[0].src;
+        });
+    });
+    //弹出图片上传的对话框
+    var myImage1 = upload_editor1.getDialog("insertimage");
+    myImage1.open();
+}
+</script>
+<!--图片上传结束-->
+</body>
+</html>

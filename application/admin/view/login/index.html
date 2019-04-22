@@ -1,0 +1,72 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.lang.v_admin_system}</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="author" content="www. ">
+    <link rel="stylesheet" href="__ADMIN__/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__ADMIN__/font-awesome/css/font-awesome.min.css">
+    <!--[if lt IE 9]>
+    <script src="__ADMIN__/js/html5shiv.min.js"></script>
+    <script src="__ADMIN__/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="__ADMIN__/css/global.min.css">
+</head>
+<body class="login" style="background:url(__ADMIN__/img/{$season}.jpg) center repeat;">
+<!--LOGO 开始-->
+<div class="logo"><img src="__ADMIN__/img/logo.png" /></div>
+<!--LOGO 结束-->
+<!--登录 开始-->
+<div class="content">
+    <!--登录表单 开始-->
+    <form name="login" class="login-form" onSubmit="return logincheck();" action="{:url('?lang=cn')}" method="post">
+        <h3 class="form-title">{$Think.lang.v_user_login}</h3>
+        <div class="input-group form-group">
+            <span class="input-group-addon"><i class="fa fa-user"></i>&nbsp;</span>
+            <input name="username" type="text" class="form-control" maxlength="20" placeholder="{$Think.lang.v_username}" />
+        </div>
+        <div class="input-group form-group">
+            <span class="input-group-addon"><i class="fa fa-lock"></i>&nbsp;</span>
+            <input name="password" type="password" class="form-control" maxlength="20" placeholder="{$Think.lang.v_password}" />
+        </div>
+        <div class="input-group form-group">
+            <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+            <input name="verify" type="text" class="form-control" maxlength="4" placeholder="{$Think.lang.v_verify}" />
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-6 col-xs-12">
+                <img class="table" id="imgverify" src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?randid='+Math.floor(Math.random()*100);" height="35" align="absmiddle" />
+            </div>
+            <div class="col-md-6 col-xs-12 mb-2">
+                <button type="submit" class="btn btn-info table"> {$Think.lang.v_login} </button>
+            </div>
+        </div>
+        <div class="radio">
+            {volist name="langlist" id="lang"}
+                <label class="mr-2">
+                    <input name="language" type="radio" value="{$lang.mulu}" {eq name="lang.isdefault" value="1"} checked="checked"{/eq} /><img src="{$lang.ico}" border="0" width="16" height="11" /> {$lang.admintitle}
+                </label>
+            {/volist}
+        </div>
+        <div class="forget-password">
+            <h4>{$helloChosen}</h4>
+        </div>
+        <div class="create-account">
+            <p>{$Think.lang.v_words}</p>
+        </div>
+    </form>
+    <!--登录表单结束-->
+</div>
+<!--登录 结束-->
+<!--版权 开始-->
+<div class="copyright">{$Think.lang.v_version}：{$system_version}</div>
+<!--版权 结束-->
+<script src="__ADMIN__/jquery/jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_home}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_manage}</li>
+                <li>{$navModuleRs.title} {$Think.lang.v_spec}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <form name="form1" action="" method="post">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <input type="hidden" name="tabledir" value="{:input('tabledir')}">
+                        <div class="col-md-8 mb-2">
+                            <div class="row">
+                                <a class="btn btn-success mb-2 mr-2" href="{:url('spec/index?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-puzzle-piece"></i> {$Think.lang.v_spec} {$Think.lang.v_manage}</a>
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('spec/edit?tabledir='.input('tabledir').'&lang='.input('lang'))}"><i class="fa fa-edit"></i> {$Think.lang.v_add} {$Think.lang.v_spec}</a>
+                                <a class="btn btn-default mb-2 mr-2" href="{:url('attribute/index?tabledir='.input('tabledir').'&lang='.input('lang').'&moduletable=Spec')}"><i class="fa fa-tag"></i> {$Think.lang.v_spec} {$Think.lang.v_attribute}</a>
+                                <a class="btn btn-default mb-2" href="{:url('attribute/edit?tabledir='.input('tabledir').'&lang='.input('lang').'&moduletable=Spec')}"><i class="fa fa-edit"></i> {$Think.lang.v_add} {$Think.lang.v_attribute}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="{$Think.lang.v_quickfind}" />
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success"><i class="fa fa-search"></i> {$Think.lang.v_search}</button></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <form name="form2" id="form2" action="" method="post">
+                            <tr>
+                                <th>ID</th>
+                                <th class="hidden-xs">{$Think.lang.v_attribute}</th>
+                                <th>{$Think.lang.v_title}</th>
+                                <th class="hidden-xs">{$Think.lang.v_sequence}</th>
+                                <th>{$Think.lang.v_do}</th>
+                            </tr>
+                            {volist name="list" id="rs"}
+                                <input type="hidden" name="id[]" value="{$rs.id}" />
+                                <tr>
+                                    <td><label><input type="checkbox" name="selectid[]" id="selectid" value="{$rs.id}" /> {$rs.id}</label></td>
+                                    <td class="hidden-xs">{$rs.att_title}</td>
+                                    <td><input name="title[]" type="text" value="{$rs.title}" class="form-control" /></td>
+                                    <td class="hidden-xs"><input name="sequence[]" type="text" value="{$rs.sequence}" class="form-control" /></td>
+                                    <td>
+                                        <a href="{:url('spec/edit?id='.$rs['id'].'&tabledir='.input('tabledir').'&lang='.input('lang'))}" class="btn btn-success btn-sm mb-2 mr-2"><i class="fa fa-edit"></i> {$Think.lang.v_edit}</a>
+                                        <a class="btn btn-sm btn-danger mb-2" onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('spec/delete_one?lang='.input('lang').'&id='.$rs['id'])}"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                    </td>
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 mt-2"><div class="pull-left">{$list->render()|raw}</div><div class="pull-left">{$Think.lang.v_total} {$lastPage} {$Think.lang.v_page} {$total} {$Think.lang.v_records}</div></div>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                                <button type="button" class="btn btn-success mt-2 mb-2 mr-2" onClick='ConfirmDel("","{:url('spec/update_all?lang='.input('lang'))}","update");'><i class="fa fa-arrow-circle-o-up"></i> {$Think.lang.v_batch} {$Think.lang.v_update}</button>
+                                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('spec/delete_all?lang='.input('lang'))}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+</body>
+</html>

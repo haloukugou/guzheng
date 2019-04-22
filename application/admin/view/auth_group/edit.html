@@ -1,0 +1,104 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_system_manage}</li>
+                <li>{$Think.lang.v_authgroup} {$Think.lang.v_manage}</li>
+                <li>{eq name="rs.id" value=""}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/eq} {$Think.lang.v_authgroup}</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <a class="btn btn-default mb-2 mr-2" href="{:url('authGroup/index?lang='.input('lang'))}"><i class="fa fa-users"></i> {$Think.lang.v_authgroup} {$Think.lang.v_manage}</a>
+                            <a class="btn btn-success mb-2" href="{:url('authGroup/edit?lang='.input('lang'))}"><i class="fa fa-plus-circle"></i> {eq name="rs.id" value=""}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/eq} {$Think.lang.v_authgroup}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success">
+                <div class="box-header with-border"><i class="fa fa-edit"></i> {eq name="rs.id" value=""}{$Think.lang.v_add}{else /}{$Think.lang.v_edit}{/eq} {$Think.lang.v_authgroup}</div>
+                <div class="box-body">
+                    <form method="post" action="" class="form-horizontal">
+                        <input type="hidden" name="id" value="{$rs.id}">
+                        <input type="hidden" name="lang" value="{:input('lang')}">
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">{$Think.lang.v_authgroup}</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="title" value="{$rs.title}" />
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            <div class="col-md-2 control-label">{$Think.lang.v_belong} {$Think.lang.v_authgroup}</div>
+                            <div class="col-md-5">
+                                <select name="parentid" class="form-control">                                        
+                                    <option value="0">{$Think.lang.v_top_authgroup}</option>
+                                    {foreach name="authGroup" item="v"}
+                                        {neq name="v.id" value="$rs.id"}
+                                            <option value="{$v.id}" {eq name="rs.parentid" value="$v.id"}selected="selected"{/eq}>{$v.html} {$v.title}</option>
+                                        {/neq}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">{$Think.lang.v_authrule} {$Think.lang.v_value}</div>
+                            <div class="col-md-10">
+                                <div id="getrule"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-2 col-md-10 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);"><i class="fa fa-angle-double-left"></i> {$Think.lang.v_goback}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+<script type="text/javascript">
+$(function(){
+    {empty name="rs.id"}
+        var url = "{:url('authGroup/getrule?lang='.input('lang'))}";
+    {else /}
+        var url = "{:url('authGroup/getrule?lang='.input('lang'))}"+"&id="+{$rs.id};
+    {/empty}
+    $.ajax({
+        url: url,
+        type: "get",
+        dataType : "html",//数据格式 
+        async: false,
+        success: function(data){
+            $("#getrule").html(data);
+        }
+    });
+});
+</script>
+</body>
+</html>

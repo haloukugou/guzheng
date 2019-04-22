@@ -1,0 +1,199 @@
+{include file="public/head" /}
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+    <!--左侧 开始-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu hidden-sm hidden-md hidden-lg" data-widget="tree" data-animation-speed="200">
+                {include file="public/left" /}
+            </ul>
+            <ul class="sidebar-menu" data-widget="tree" data-animation-speed="200">
+                {include file="public/global_left" /}
+            </ul>
+        </section>
+    </aside>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div class="content-wrapper">
+        <!--导航 开始-->
+        <div>
+            <ol class="breadcrumb">
+                <li>{$Think.lang.v_global}</li>
+                <li>{$Think.lang.v_system_manage}</li>
+                <li>{$Think.lang.v_template} {$Think.lang.v_manage}</li>
+                <li>{$Think.lang.v_edit} {$Think.lang.v_template}</li>
+                <li class="text-red">{$template_path}{$Think.get.mulu}/</li>
+            </ol>
+        </div>
+        <!--导航 结束-->
+        <!--内容 开始-->
+        <section class="content">
+            <div class="box">
+                <div class="box-body">
+                    <form name="form2" id="form2" action="" method="post">
+                        <div class="col-md-12 mb-4">
+                            {notempty name="Think.get.mulu"}
+                                <a href="{:url('templatemanage/mululist?lang='.input('lang').'&mulu='.$goback)}" class="btn btn-info mb-2 mr-2"><i class="fa fa-reply-all"></i> {$Think.lang.v_mulu_goback}</a>
+                            {/notempty}
+                            <a data-target="#creatfolder" data-toggle="modal" class="btn btn-warning mb-2 mr-2"><i class="fa fa-plus-circle"></i> <i class="fa fa-folder"></i> {$Think.lang.v_addnew} {$Think.lang.v_module_mulu}</a>
+                            <a href="{:url('templatemanage/creatfile?mulu='.input('mulu').'&lang='.input('lang'))}" class="btn btn-success mb-2"><i class="fa fa-plus-circle"></i> <i class="fa fa-file-text"></i> {$Think.lang.v_addnew} {$Think.lang.v_document}</a>
+                        </div>
+                        {notempty name="list->data"}
+                        <!--列表 开始-->
+                        {volist name='$list->data' id='mulu'}
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="box box-solid box-default pad text-center">
+                                <span class="check_position"><input type="checkbox" name="selectid[]" id="selectid" value="{$Think.get.mulu}/{$mulu}"></span>
+                                {php}
+                                    $muluArr = explode('.',$mulu);
+                                    if(count($muluArr) > 1){
+                                        $suffix = $muluArr[count($muluArr)-1];
+                                    }else{
+                                        $suffix = 'mulu';
+                                    }
+                                {/php}
+                                {switch $suffix}
+                                    {case gif|png|jpg|bmp}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-image-o fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case zip|rar}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-zip-o text-red fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case doc|docx}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-word-o text-blue fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case xls|xlsx}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-excel-o text-green fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case pdf}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-pdf-o text-yellow fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case ppt|pptx}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-powerpoint-o text-red fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case flv|avi|rm|wmv|rmvb|mp4|mpg|mpeg|3gp|mov}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-movie-o text-purple fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case mp3|cda|wav|wma}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-audio-o text-yellow fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case txt}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-text fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case bak|php|aspx|asp|css}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-archive-o text-purple fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                    {/case}
+                                    {case html|htm}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-internet-explorer text-blue fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <a href="{:url('templatemanage/edit?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang').'&filename='.$mulu)}" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> {$Think.lang.v_edit}</a>
+                                    {/case}
+                                    {case mulu}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-folder text-yellow fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <a href="{:url('templatemanage/mululist?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-success"><i class="fa fa-folder-open-o"></i> {$Think.lang.v_open}</a>
+                                    {/case}
+                                    {default /}
+                                        <a onClick='return confirm("{$Think.lang.v_confirm_delete}！");' href="{:url('templatemanage/delfile?mulu='.input('mulu').'/'.$mulu.'&lang='.input('lang'))}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {$Think.lang.v_delete}</a>
+                                        <div class="mb-2">
+                                            <i class="fa fa-file-audio-o text-yellow fa-3x mt-2 mb-2"></i><br>{$mulu|msubstr=0,12}
+                                        </div>
+                                        <span class="btn btn-xs">&nbsp;</span>
+                                {/switch}
+                            </div>
+                        </div>
+                        {/volist}
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 mt-2"><div class="pull-left mr-4">{$list->render|raw}</div><div class="pull-left mt-2">{$Think.lang.v_total} {$list->page} / {$list->pageNum} {$Think.lang.v_page} {$list->total} {$Think.lang.v_records}</div></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-info mt-2 mb-2 mr-2 checkbox-toggle"><i class="fa fa-square-o"></i> {$Think.lang.v_select_all}</button>
+                                <button type="button" class="btn btn-danger mt-2 mb-2" onClick='ConfirmDel("{$Think.lang.v_confirm_delete}！","{:url('templatemanage/delfile?lang='.input('lang').'&deleteall=yes')}","delete");'><i class="fa fa-trash"></i> {$Think.lang.v_delete_select}</button>
+                            </div>
+                        </div>
+                        <!--列表 结束-->
+                        {/notempty}
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--内容 结束-->
+    </div>
+    <!--右侧 结束-->
+    <div class="clearfix"></div>
+{include file="public/foot" /}
+{include file="public/icheckjs" /}
+<!--新建目录-->
+<div class="modal fade" id="creatfolder" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h5 class="modal-title text-green"><i class="fa fa-plus-circle"></i> {$Think.lang.v_addnew} {$Think.lang.v_module_mulu}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form name="form1" action="{:url('templatemanage/creatfolder?lang='.input('lang'))}" method="post">
+                        <input type="hidden" name="folderpath" value="{$Think.get.mulu}">
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <h5>{$Think.lang.v_mulu_title}：</h5>
+                            <input type="text" name="foldername" class="form-control" maxlength="20" placeholder="{$Think.lang.v_english_only}">
+                        </div>
+                        <div class="col-md-offset-3 col-md-6 mb-4">
+                            <button type="submit" class="btn btn-success mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> {$Think.lang.v_close}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

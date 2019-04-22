@@ -1,0 +1,89 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.lang.v_admin_system}</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="author" content="www. ">
+    <link rel="stylesheet" href="__ADMIN__/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__ADMIN__/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__ADMIN__/css/adminlte.min.css">
+    <link rel="stylesheet" href="__ADMIN__/css/skins/all-skins.min.css">
+    <!--[if lt IE 9]>
+    <script src="__ADMIN__/js/html5shiv.min.js"></script>
+    <script src="__ADMIN__/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="__ADMIN__/css/global.min.css">
+</head>
+<body class="hold-transition skin-green fixed sidebar-mini">
+<div class="wrapper">
+    <header class="main-header">
+        <!-- Logo -->
+        <span class="logo">
+            <span class="logo-mini" data-toggle="push-menu" role="button"><i class="fa fa-bars"></i></span>
+            <span class="logo-lg"><a href="{:url('index/index?lang='.input('lang'))}" class="pull-left mr-2"><i class="fa fa-home"></i> {$Think.lang.v_admin_system}</a> <span class="pull-right"><i class="fa fa-bars" data-toggle="push-menu" role="button"></i></span></span>
+        </span>
+        <nav class="navbar navbar-static-top">
+            <a href="/" class="home hidden-sm hidden-md hidden-lg" target="_blank"><i class="fa fa-desktop"></i></a>
+            <!--头部左侧横向菜单 开始-->
+            <div class="hor-menu hidden-sm hidden-xs">
+                <ul class="nav navbar-nav">
+                    <li class="classic-menu-dropdown {$home_current}">
+                        <a href="{:url('index/index?lang='.input('lang'))}"><i class="fa fa-home"></i> {$Think.lang.v_home}
+                            {eq name="home_current" value="active"}<span class="selected"></span>{/eq}
+                        </a>
+                    </li>
+                    <li class="classic-menu-dropdown {$global_current}">
+                        <a href="{:url('siteinfo/index?lang='.input('lang'))}"><i class="fa fa-globe"></i> {$Think.lang.v_global}
+                            {eq name="global_current" value="active"}<span class="selected"></span>{/eq}
+                        </a>
+                    </li>
+                    <li class="classic-menu-dropdown"><a href="/" target="_blank"><i class="fa fa-desktop"></i> {$Think.lang.v_homepage}</a></li>
+                </ul>
+            </div>
+            <!--头部左侧横向菜单 结束-->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!--清理缓存 开始-->
+                    <li class="dropdown messages-menu">
+                        <a href="{:url('index/delCache?lang='.input('lang'))}" class="dropdown-toggle">
+                            <i class="fa fa-refresh"></i><span class="hidden-xs"> {$Think.lang.v_clean_cache}</span>
+                        </a>
+                    </li>
+                    <!--清理缓存 结束-->
+                    <!--语言 开始-->
+                    {gt name="languageNum" value="1"}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{$nowLang.ico}"><span class="hidden-xs"> {$nowLang.admintitle}</span> <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {volist name="headlang" id="headlang"}
+                                {neq name="Think.get.lang" value="$headlang.mulu"}
+                                <li><a href="{:url('index/index?lang='.$headlang['mulu'])}"><img src="{$headlang['ico']}"> {$headlang['admintitle']}</a></li>
+                                {/neq}
+                            {/volist}
+                        </ul>
+                    </li>
+                    {/gt}
+                    <!--语言 结束-->
+                    <!--用户 开始-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img class="user-image" src="{:input('session.avatar')}" />
+                            <span class="hidden-xs">{:input('session.nickname')}</span> <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{:url('user/edit?lang='.input('lang').'&id='.input('session.userid'))}"><i class="fa fa-user"></i> {$Think.lang.v_me_edit}</a></li>
+                            <li><a href="{:url('login/logout')}" onClick='return confirm("{$Think.lang.v_confirm_quit}");'><i class="fa fa-power-off"></i> {$Think.lang.v_logout}</a></li>
+                        </ul>
+                    </li>
+                    <!--用户 结束-->
+                </ul>
+            </div>
+        </nav>
+    </header>

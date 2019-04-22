@@ -1,0 +1,55 @@
+<!--有理想的地方，地狱都是天堂-->
+<!--Copyright @   版权所有-->
+<!--开发：dj-->
+<link href="__ADMIN__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h5 class="modal-title"><img src="{$userRs.avatar}" style="width:20px;height:20px;" class="img-circle" onerror="this.src='__ADMIN__/img/avatar.png'"> {$userRs.nickname}</h5>
+</div>
+<div class="modal-body">
+    <form name="form1" method="post" action="{:url('guestbook/edit?lang='.input('lang'))}">
+    <input type="hidden" name="signid" value="1" />
+    <input type="hidden" name="parentid" value="{$rs.id}" />
+    <input type="hidden" name="userid" value="{:session('userid')}" />
+    <input type="hidden" name="lang" value="{$rs.lang}" />
+    <div class="row">
+        {volist name="replylist" id="repRs"}
+            <div class="col-md-12 mb-2 detail">
+                <img src="{$userRs.avatar}" style="width:20px;height:20px;" class="img-circle" onerror="this.src='__ADMIN__/img/avatar.png'"> [ {$repRs.nickname} ] {$repRs.addtime|date='Y-m-d H:i'} {$Think.lang.v_reply}：{$repRs.content|raw}
+            </div>
+        {/volist}
+        <div class="col-md-12 mb-2 detail">{$Think.lang.v_reply}：“ <span class="text-red">{$rs.content|raw}</span> ”</div>
+        <div class="col-md-12 mb-2">
+            <textarea name="content" class="form-control" rows="5"></textarea>
+        </div>
+        <div class="col-md-12 mb-2">
+            <div class="input-group date form_datetime">
+                <div class="input-group-addon">{$Think.lang.v_reply} {$Think.lang.v_date}</div>
+                <input type="text" class="form-control" name="addtime" readonly="readonly" value="{empty name="rs.addtime"}{php}echo date('Y-m-d H:i:s',time());{/php}{else /}{$rs.addtime|date='Y-m-d H:i:s'}{/empty}" />
+                <span class="input-group-btn"><button type="button" class="btn btn-default date-set"><i class="fa fa-calendar"></i></button></span>
+            </div>
+        </div>
+        <div class="col-md-12 mt-2 text-center">
+            <button type="submit" class="btn btn-info mr-4"><i class="fa fa-check"></i> {$Think.lang.v_save} {$Think.lang.v_reply}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> {$Think.lang.v_close}</button>
+        </div>
+    </div>
+    </form>
+</div>
+<!--日期选择 开始-->
+<script src="__ADMIN__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+{eq name="Think.get.lang" value="cn"}
+<script type="text/javascript" src="__ADMIN__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+{/eq}
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        autoclose: true,
+        todayBtn: true,
+        {eq name="Think.get.lang" value="cn"}
+        language: 'zh-CN',
+        {/eq}
+        pickerPosition: "bottom-left"
+    });
+</script>
+<!--日期选择 结束-->
